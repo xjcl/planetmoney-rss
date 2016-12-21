@@ -66,7 +66,7 @@ with open('/home/jan/Dropbox/py/planetmoney-rss/npr_pm_test.xml', 'w') as f:
     f.write('''<?xml version="1.0" encoding="utf-8"?>
         <rss version="2.0">
         <channel>
-        <title>Planet money but it's all episodes</title>
+        <title>Planet Money but it's all episodes</title>
         <link>https://github.com/xjcl/planetmoney-rss/tree/gh-pages</link>
         <image><url>http://nationalpublicmedia.com/wp-content/uploads/2014/06/planetmoney.png</url></image>
         <description>pls don't sue</description>
