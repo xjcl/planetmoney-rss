@@ -18,7 +18,7 @@ req_nr = 0
 for year in range(datetime.datetime.now().year, 2007, -1):
     for month in range(12, 0, -1):
         req_nr += 1
-        print('Request number ' + str(req_nr))
+        print('Request number ' + str(req_nr), end='\r')
 
         # every side goes about 2 months back, so we check every month
         full_url = URL_STEM + '?date=' + str(month) + '-31-' + str(year)
