@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>Title of your Feed</title>
+<link>http://www.yourwebsite.com/</link>
+<description>This is the description of your Feed.
+Keep it to one or two sentences.</description>
+
+<item>
+<title>Content Title</title>
+<link>https://ondemand.npr.org/anon.npr-mp3/npr/pmoney/2016/10/20161028_pmoney_pmoneypod1.mp3?orgId=1&amp;topicId=1006&amp;d=1030&amp;story=499805238&amp;siteplayer=true&amp;dl=1</link>
+<guid>https://ondemand.npr.org/anon.npr-mp3/npr/pmoney/2016/10/20161028_pmoney_pmoneypod1.mp3?orgId=1&amp;topicId=1006&amp;d=1030&amp;story=499805238&amp;siteplayer=true&amp;dl=1</guid>
+<pubDate>Wed, 27 Nov 2013 15:17:32 GMT</pubDate>
+<description>Description for your content.</description>
+</item>
+
+</channel>
+</rss>
