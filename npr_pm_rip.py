@@ -28,12 +28,23 @@ for year in range(datetime.datetime.now().year, 2007, -1):
             the_page = str(response.read(), 'utf-8')
 
             findtitle = '<h2 class="title">'
-            qs = [m.start()+len(findtitle) for m in re.finditer(findtitle, the_page)]
+            titles = [m.start()+len(findtitle) for m in re.finditer(findtitle, the_page)]
 
             findurl = 'audio-tool audio-tool-download"><a href="'
-            js = [m.start()+len(findurl) for m in re.finditer(findurl, the_page)]
+            urls = [m.start()+len(findurl) for m in re.finditer(findurl, the_page)]
 
-            for j,q in zip(js, qs):
+            # remove episodes that are still referenced but with removed downloads
+            i = 0
+            while i < len(urls):
+                if i+1 != len(titles) and titles[i+1] < urls[i]:
+                    titles.pop(i)
+                    continue
+                i += 1
+            titles = titles[:len(urls)]
+
+            assert len(titles) == len(urls)
+
+            for j,q in zip(urls, titles):
                 i = j; p = q
                 while the_page[j] != '"':
                     j += 1
