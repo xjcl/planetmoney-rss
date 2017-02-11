@@ -115,5 +115,5 @@ with open('/home/jan/Dropbox/py/planetmoney-rss/npr_pm_test.xml', 'w') as f:
             f.write('<' + k + '>' + escape(v) + '</' + k + '>')
         f.write('</item>\n')
 
-    f.write('</channel></rss>')
+    f.write('</channel></rss>\n')
 
