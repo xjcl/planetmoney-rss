@@ -64,7 +64,7 @@ for year in range(datetime.datetime.now().year, 2007, -1):
                     media_urls.append(media_url)
                     media_urls_rich.append((media_url, media_title, media_date))
 
-# can be downloaded all with  wgt -i filename.txt
+# can be downloaded all with  wget -i filename.txt
 with open('media_urls', 'w') as f:
     f.write('\n'.join(media_urls))
 
