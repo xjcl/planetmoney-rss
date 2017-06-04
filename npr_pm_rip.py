@@ -6,19 +6,24 @@
 # TODO: cache websites?
 
 from html.parser import HTMLParser
-from html.entities import name2codepoint
 from html import escape
 
 import datetime
 import urllib.request
 
 
+# input:   "npr planet money" html website corresponding to a month+year-date
+# output:  stored in self.feed_entries which is a list of entries
+#               each entry corresponds to a podcast episode
+#               each entry is a dictionary with info, eg
+#                   { 'title': 'Episode ###: Bla',  'link': 'https://...',  ...} etc
 class PlanetMoneyHTMLParser(HTMLParser):
 
     def __init__(self):
         self.prev = None
         self.next_attr = ''
-        # stack tags (sneaking in before content) wa want to ignore in handle_data
+
+        # stack tags (sneaking in before content) we want to ignore in handle_data
         # eg   <want> <time="12"> irrelevant data! </time> data we want </want>
         # so here we would ignore 'time'
         self.tag_stack = []
@@ -71,10 +76,16 @@ class PlanetMoneyHTMLParser(HTMLParser):
         self.next_attr = ''
 
 
+
+PLANET_MONEY_EPOCH = 2008
+
+# TODO add some sort of caching / incremental update mechanism
+#     ie pickle 'all_feed_entries' and use first entry as epoch
+#     then have dict as  all_feed_entries + pickled_all_feed_entries
+
 URL_STEM = 'http://www.npr.org/sections/money/127413729/podcast/archive'
 USER_AGENT = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
 HDR = {'User-Agent': USER_AGENT, 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
-PLANET_MONEY_EPOCH = 2008
 
 yr_now = datetime.datetime.now().year
 print('making ' + str(12 * (yr_now - PLANET_MONEY_EPOCH-1)) + ' requests to gather urls, please be patient...')
@@ -87,7 +98,7 @@ for year in range(yr_now, PLANET_MONEY_EPOCH-1, -1):
         req_nr += 1
         print('Request number ' + str(req_nr), end='\r')
 
-        # every side goes about 2 months back, so we check every month
+        # every site goes about 2 months back, so we check every month
         full_url = URL_STEM + '?date=' + str(month) + '-31-' + str(year)
         req = urllib.request.Request(full_url, headers=HDR)
 
@@ -97,8 +108,12 @@ for year in range(yr_now, PLANET_MONEY_EPOCH-1, -1):
             parser = PlanetMoneyHTMLParser()
             parser.feed(the_page)
             for e in parser.feed_entries:
-                if all(f['link'] != e['link'] for f in all_feed_entries):  # prevent dupes
+                # TODO: in 'else' case we want to continue to next month..
+                if all(f['link'] != e['link'] for f in all_feed_entries):  # prevent duplicates
                     all_feed_entries.append(e)
+                    print(e)
+
+
 
 with open('/home/jan/Dropbox/py/planetmoney-rss/npr_pm_test.xml', 'w') as f:
     f.write('''<?xml version="1.0" encoding="utf-8"?>
