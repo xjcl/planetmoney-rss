@@ -3,11 +3,10 @@
 # by downloading the human-interfacing HTML (which does contain all episodes, surprisingly),
 #   parsing it into python datatypes (PlanetMoneyHTMLParser), and emitting an xml rss feed
 
-# TODO: cache websites?
-
 from html.parser import HTMLParser
 from html import escape
 
+import pickle
 import datetime
 import urllib.request
 
@@ -48,6 +47,7 @@ class PlanetMoneyHTMLParser(HTMLParser):
             self.feed_entry['guid'] = attrs[0][1]
 
         if tag == 'time':
+            # TODO: remove duration (implicit in file + ugly itunes tag) ?
             if ('class', 'audio-module-duration') in attrs:
                 self.next_attr = 'itunes:duration'
             else:
@@ -78,31 +78,47 @@ class PlanetMoneyHTMLParser(HTMLParser):
 
 
 PLANET_MONEY_EPOCH = 2008
-
-# TODO add some sort of caching / incremental update mechanism
-#     ie pickle 'all_feed_entries' and use first entry as epoch
-#     then have dict as  all_feed_entries + pickled_all_feed_entries
-
+FEED_PICKLE_FILE = 'npr_pm_feed.p'
 URL_STEM = 'http://www.npr.org/sections/money/127413729/podcast/archive'
-USER_AGENT = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
-HDR = {'User-Agent': USER_AGENT, 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
+
+
+# try to load cached results from a previous run of this script
+try:
+    with open(FEED_PICKLE_FILE, 'rb') as f:
+        all_feed_entries = pickle.load(f)
+        # add new episodes at TAIL
+        # i think we have to store the rss feed "newest-first"
+        #     (everyone else does it, looks dum in firefox if "oldest-first")
+        all_feed_entries = list(reversed(all_feed_entries))
+    epoch = datetime.datetime.strptime(all_feed_entries[-1]['pubDate'], '%Y-%m-%d').year
+except:
+    all_feed_entries = []
+    epoch = PLANET_MONEY_EPOCH
+
 
 yr_now = datetime.datetime.now().year
-print('making ' + str(12 * (yr_now - PLANET_MONEY_EPOCH + 1)) + ' requests to gather urls, please be patient...')
+print('making <=' + str(12 * (yr_now - (epoch-1))) + ' requests to gather urls, please be patient...')
 req_nr = 0
-all_feed_entries = []
 
-for year in range(yr_now, PLANET_MONEY_EPOCH-1, -1):
-    for month in range(12, 0, -1):
+# for year in range(yr_now, epoch-1, -1):
+#     for month in range(12, 0, -1):
+# for year, month in chain((epoch[0], m for m in range(epoch[1], )), range(epoch, yr_now+1)):
+for year in range(epoch, yr_now+1):
+    for month in range(1, 12+1):
+
+    # for day in (10, 20, 31):
+        day = 31
 
         req_nr += 1
         print('Request number ' + str(req_nr), end='\r')
 
         # every site goes about 2 months back, so we check every month
-        full_url = URL_STEM + '?date=' + str(month) + '-31-' + str(year)
-        req = urllib.request.Request(full_url, headers=HDR)
+        full_url = URL_STEM + '?date=' + str(month) + '-' + str(day) + '-' + str(year)  # american dates lmao
+        req = urllib.request.Request(full_url)
 
         with urllib.request.urlopen(req) as response:
+            local_feed_entries = []
+
             the_page = str(response.read(), 'utf-8')
 
             parser = PlanetMoneyHTMLParser()
@@ -110,9 +126,12 @@ for year in range(yr_now, PLANET_MONEY_EPOCH-1, -1):
             for e in parser.feed_entries:
                 # TODO: in 'else' case we want to continue to next month..
                 if all(f['link'] != e['link'] for f in all_feed_entries):  # prevent duplicates
-                    all_feed_entries.append(e)
+                    local_feed_entries.append(e)
+
+            all_feed_entries += list(reversed(local_feed_entries))
 
 
+all_feed_entries = list(reversed(all_feed_entries))
 
 with open('npr_pm_test.xml', 'w') as f:
     f.write('''<?xml version="1.0" encoding="utf-8"?>
@@ -130,4 +149,7 @@ with open('npr_pm_test.xml', 'w') as f:
         f.write('</item>\n')
 
     f.write('</channel></rss>\n')
+
+with open(FEED_PICKLE_FILE, 'wb') as f:
+    pickle.dump(all_feed_entries, f)
 
