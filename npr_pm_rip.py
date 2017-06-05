@@ -3,23 +3,21 @@
 # by downloading the human-interfacing HTML (which does contain all episodes, surprisingly),
 #   parsing it into python datatypes (PlanetMoneyHTMLParser), and emitting an xml rss feed
 
-from html.parser import HTMLParser
-from html import escape
-
+import html
 import math
 import pickle
 import datetime
 import itertools
+import html.parser
+import collections
 import urllib.request
-
-
 
 # input:   "npr planet money" html website corresponding to a month+year-date
 # output:  stored in self.feed_entries which is a list of entries
 #               each entry corresponds to a podcast episode
 #               each entry is a dictionary with info, eg
 #                   { 'title': 'Episode ###: Bla',  'link': 'https://...',  ...} etc
-class PlanetMoneyHTMLParser(HTMLParser):
+class PlanetMoneyHTMLParser(html.parser.HTMLParser):
 
     def __init__(self):
         self.prev = None
@@ -32,38 +30,43 @@ class PlanetMoneyHTMLParser(HTMLParser):
 
         self.feed_entry = {}
         self.feed_entries = []
+
+        self.tagattrs = collections.namedtuple('tagattrs', ['tag', 'attrs'])
+
         super().__init__()
 
     def handle_starttag(self, tag, attrs):
 
+        attrs = dict(attrs)
+
         if self.next_attr:
             self.tag_stack.append(tag)
 
-        if tag == 'a' and self.prev[0] == 'h2' and ('class', 'title') in self.prev[1]:
+        if tag == 'a' and self.prev.tag == 'h2' and self.prev.attrs.get('class') == 'title':
             self.next_attr = 'title'
 
-        if tag == 'a' and self.prev[0] == 'p' and ('class', 'teaser') in self.prev[1]:
+        if tag == 'a' and self.prev.tag == 'p' and self.prev.attrs.get('class') == 'teaser':
             self.next_attr = 'description'
 
-        if tag == 'a' and self.prev[0] == 'li' and ('class', 'audio-tool audio-tool-download') in self.prev[1]:
-            self.feed_entry['link'] = attrs[0][1]
-            self.feed_entry['guid'] = attrs[0][1]
+        if tag == 'a' and self.prev.tag == 'li' and self.prev.attrs.get('class') == 'audio-tool audio-tool-download':
+            self.feed_entry['link'] = attrs['href']
+            self.feed_entry['guid'] = attrs['href']
 
         if tag == 'time':
             # TODO: remove duration (implicit in file + ugly itunes tag) ?
-            if ('class', 'audio-module-duration') in attrs:
+            if attrs.get('class') == 'audio-module-duration':
                 self.next_attr = 'itunes:duration'
             else:
-                self.feed_entry['pubDate'] = attrs[0][1]
+                self.feed_entry['pubDate'] = attrs['datetime']
 
-        self.prev = (tag, attrs)
-        # XXX check tag,attrs instead of doing [0][1]
+        self.prev = self.tagattrs(tag, attrs)
 
     def handle_endtag(self, tag):
         if self.tag_stack:
             self.tag_stack.pop()
 
         if tag == 'article' and self.feed_entry:
+            # some stories don't have links or had theirs removed i guess
             if 'link' in self.feed_entry:
                 self.feed_entries.append(self.feed_entry)
             self.feed_entry = {}
@@ -152,7 +155,7 @@ def save_feed_entries(all_feed_entries):
             for e in all_feed_entries:
                 f.write('<item>')
                 for k,v in sorted(e.items()):
-                    f.write('<' + k + '>' + escape(v) + '</' + k + '>')
+                    f.write('<' + k + '>' + html.escape(v) + '</' + k + '>')
                 f.write('</item>\n')
 
             f.write('</channel></rss>\n')
