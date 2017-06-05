@@ -6,9 +6,12 @@
 from html.parser import HTMLParser
 from html import escape
 
+import math
 import pickle
 import datetime
+import itertools
 import urllib.request
+
 
 
 # input:   "npr planet money" html website corresponding to a month+year-date
@@ -77,7 +80,7 @@ class PlanetMoneyHTMLParser(HTMLParser):
 
 
 
-PLANET_MONEY_EPOCH = 2008
+PLANET_MONEY_EPOCH = datetime.datetime(2008, 9, 9)
 FEED_PICKLE_FILE = 'npr_pm_feed.p'
 URL_STEM = 'http://www.npr.org/sections/money/127413729/podcast/archive'
 
@@ -85,53 +88,46 @@ URL_STEM = 'http://www.npr.org/sections/money/127413729/podcast/archive'
 # try to load cached results from a previous run of this script
 try:
     with open(FEED_PICKLE_FILE, 'rb') as f:
-        all_feed_entries = pickle.load(f)
-        # add new episodes at TAIL
         # i think we have to store the rss feed "newest-first"
         #     (everyone else does it, looks dum in firefox if "oldest-first")
-        all_feed_entries = list(reversed(all_feed_entries))
-    epoch = datetime.datetime.strptime(all_feed_entries[-1]['pubDate'], '%Y-%m-%d').year
+        all_feed_entries = pickle.load(f)
+    epoch = datetime.datetime.strptime(all_feed_entries[0]['pubDate'], '%Y-%m-%d') - datetime.timedelta(days=1)
 except:
+# if True:
     all_feed_entries = []
     epoch = PLANET_MONEY_EPOCH
 
 
-yr_now = datetime.datetime.now().year
-print('making <=' + str(12 * (yr_now - (epoch-1))) + ' requests to gather urls, please be patient...')
+now = datetime.datetime.now()
+print('making ~' + str(math.ceil((now - epoch).days / 40)) + ' requests to gather urls, please be patient...')
 req_nr = 0
 
-# for year in range(yr_now, epoch-1, -1):
-#     for month in range(12, 0, -1):
-# for year, month in chain((epoch[0], m for m in range(epoch[1], )), range(epoch, yr_now+1)):
-for year in range(epoch, yr_now+1):
-    for month in range(1, 12+1):
+new_feed_entries = []
 
-    # for day in (10, 20, 31):
-        day = 31
+# we have to iteratre from present to the past because we need to know the last date to make the next request
+curdate = now
+while curdate > epoch:
 
-        req_nr += 1
-        print('Request number ' + str(req_nr), end='\r')
+    req_nr += 1
+    print('Request number', req_nr, 'for date', curdate.strftime('%Y-%m-%d'), end='\r')
 
-        # every site goes about 2 months back, so we check every month
-        full_url = URL_STEM + '?date=' + str(month) + '-' + str(day) + '-' + str(year)  # american dates lmao
-        req = urllib.request.Request(full_url)
+    full_url = URL_STEM + curdate.strftime('?date=%m-%d-%Y')  # site uses yankeedates !! lmao
+    req = urllib.request.Request(full_url)
 
-        with urllib.request.urlopen(req) as response:
-            local_feed_entries = []
+    with urllib.request.urlopen(req) as response:
+        the_page = str(response.read(), 'utf-8')
 
-            the_page = str(response.read(), 'utf-8')
-
-            parser = PlanetMoneyHTMLParser()
-            parser.feed(the_page)
-            for e in parser.feed_entries:
-                # TODO: in 'else' case we want to continue to next month..
-                if all(f['link'] != e['link'] for f in all_feed_entries):  # prevent duplicates
-                    local_feed_entries.append(e)
-
-            all_feed_entries += list(reversed(local_feed_entries))
+        parser = PlanetMoneyHTMLParser()
+        parser.feed(the_page)
+        for e in parser.feed_entries:
+            curdate = datetime.datetime.strptime(e['pubDate'], '%Y-%m-%d')
+            if all(f['link'] != e['link'] for f in all_feed_entries) and \
+               all(f['link'] != e['link'] for f in new_feed_entries):  # prevent duplicates
+                new_feed_entries.append(e)
 
 
-all_feed_entries = list(reversed(all_feed_entries))
+
+all_feed_entries = new_feed_entries + all_feed_entries
 
 with open('npr_pm_test.xml', 'w') as f:
     f.write('''<?xml version="1.0" encoding="utf-8"?>
