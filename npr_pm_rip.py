@@ -88,7 +88,7 @@ USER_AGENT = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/
 HDR = {'User-Agent': USER_AGENT, 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
 
 yr_now = datetime.datetime.now().year
-print('making ' + str(12 * (yr_now - PLANET_MONEY_EPOCH-1)) + ' requests to gather urls, please be patient...')
+print('making ' + str(12 * (yr_now - PLANET_MONEY_EPOCH + 1)) + ' requests to gather urls, please be patient...')
 req_nr = 0
 all_feed_entries = []
 
@@ -111,11 +111,10 @@ for year in range(yr_now, PLANET_MONEY_EPOCH-1, -1):
                 # TODO: in 'else' case we want to continue to next month..
                 if all(f['link'] != e['link'] for f in all_feed_entries):  # prevent duplicates
                     all_feed_entries.append(e)
-                    print(e)
 
 
 
-with open('/home/jan/Dropbox/py/planetmoney-rss/npr_pm_test.xml', 'w') as f:
+with open('npr_pm_test.xml', 'w') as f:
     f.write('''<?xml version="1.0" encoding="utf-8"?>
         <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
         <channel>
@@ -126,7 +125,7 @@ with open('/home/jan/Dropbox/py/planetmoney-rss/npr_pm_test.xml', 'w') as f:
 
     for e in all_feed_entries:
         f.write('<item>')
-        for k,v in e.items():
+        for k,v in sorted(e.items()):
             f.write('<' + k + '>' + escape(v) + '</' + k + '>')
         f.write('</item>\n')
 
