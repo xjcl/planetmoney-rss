@@ -122,6 +122,7 @@ def parse_site_into_feed(old_feed_entries, epoch):
         print('Request number', req_nr, 'for date', curdate.strftime('%Y-%m-%d'), end='\r')
 
         full_url = URL_STEM + curdate.strftime('?date=%m-%d-%Y')  # site uses yankeedates !! lmao
+        print(full_url)
         req = urllib.request.Request(full_url)
 
         with urllib.request.urlopen(req) as response:
@@ -132,6 +133,7 @@ def parse_site_into_feed(old_feed_entries, epoch):
         parser.close()
 
         for e in parser.feed_entries:
+            print(e)
             curdate = datetime.datetime.strptime(e['pubDate'], '%Y-%m-%d')
             if all(f['link'] != e['link'] for f in old_feed_entries) and \
                all(f['link'] != e['link'] for f in new_feed_entries):  # prevent duplicates
