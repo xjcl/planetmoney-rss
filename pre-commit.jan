@@ -2,25 +2,23 @@
 #
 # me toying around with hooks to figure out how they work
 # put in
-# 	.git/hooks/pre-commit
+#     .git/hooks/pre-commit
 # to enable
 
 if git rev-parse --verify HEAD >/dev/null 2>&1
 then
-	against=HEAD
+    against=HEAD
 else
-	# Initial commit: diff against an empty tree object
-	against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
+    # Initial commit: diff against an empty tree object
+    against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
 fi
 
 # Redirect output to stderr.
 exec 1>&2
 
-# error if there are any TABs in the about-to-be commit
-# https://askubuntu.com/questions/53071
-if [ $(git diff --cached $against | grep $'\t' | wc -c) != 0 ]; then
-	echo "don't add TABs you worthless piece of shit smh"
-	exit 1
+# error if there are any TABs added in the about-to-be commit
+if [ $(git diff --cached --unified=0 $against | egrep "^\+" | grep -P "\t" | wc -c) != 0 ]; then
+    echo "**** YOUR COMMIT HAS BEEN REJECTED ****"
+    echo "don't add TABs you worthless piece of shit smh"
+    exit 1
 fi
-
-exit 0
