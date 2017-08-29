@@ -23,6 +23,8 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
         self.prev = None
         self.next_attr = ''
 
+        self.subpage = None
+
         # stack tags (sneaking in before content) we want to ignore in handle_data
         # eg   <want> <time="12"> irrelevant data! </time> data we want </want>
         # so here we would ignore 'time'
@@ -43,6 +45,7 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
             self.tag_stack.append(tag)
 
         if tag == 'a' and self.prev.tag == 'h2' and self.prev.attrs.get('class') == 'title':
+            self.subpage = attrs['href']
             self.next_attr = 'title'
 
         if tag == 'a' and self.prev.tag == 'p' and self.prev.attrs.get('class') == 'teaser':
@@ -66,9 +69,36 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
             self.tag_stack.pop()
 
         if tag == 'article' and self.feed_entry:
-            # some stories don't have links or had theirs removed i guess
+
+            # since 2017 stories lack audio modules now, you have to go on the episode pages themselves for the links
+
+            # case we are on the main feed page which has subpages
+            if self.subpage:
+                req = urllib.request.Request(self.subpage)
+
+                with urllib.request.urlopen(req) as response:
+                    the_page = str(response.read(), 'utf-8')
+
+                parser = PlanetMoneyHTMLParser()
+                parser.feed(the_page)
+                parser.close()
+
+
+                for e in parser.feed_entries:
+                    # ugly hack
+                    old_pub_date = self.feed_entry['pubDate']
+
+                    self.feed_entry.update(e)
+
+                    if len(old_pub_date) == len('YYYY-MM-DD'):   # -> we DONT want the 'T22:10:00' part or a duration!
+                        self.feed_entry['pubDate'] = old_pub_date
+
+                self.subpage = None
+
+
             if 'link' in self.feed_entry:
                 self.feed_entries.append(self.feed_entry)
+
             self.feed_entry = {}
 
     def handle_data(self, data):
@@ -84,7 +114,7 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
 
 # ok not to subtract one here cos there was only a single episode that date
 PLANET_MONEY_EPOCH = datetime.datetime(2008, 9, 9)
-FEED_PICKLE_FILE = 'npr_pm_feed.p'
+FEED_PICKLE_FILE = 'npr_pm_feed.pickle'
 URL_STEM = 'http://www.npr.org/sections/money/127413729/podcast/archive'
 
 
@@ -122,7 +152,6 @@ def parse_site_into_feed(old_feed_entries, epoch):
         print('Request number', req_nr, 'for date', curdate.strftime('%Y-%m-%d'), end='\r')
 
         full_url = URL_STEM + curdate.strftime('?date=%m-%d-%Y')  # site uses yankeedates !! lmao
-        print(full_url)
         req = urllib.request.Request(full_url)
 
         with urllib.request.urlopen(req) as response:
@@ -133,7 +162,6 @@ def parse_site_into_feed(old_feed_entries, epoch):
         parser.close()
 
         for e in parser.feed_entries:
-            print(e)
             curdate = datetime.datetime.strptime(e['pubDate'], '%Y-%m-%d')
             if all(f['link'] != e['link'] for f in old_feed_entries) and \
                all(f['link'] != e['link'] for f in new_feed_entries):  # prevent duplicates

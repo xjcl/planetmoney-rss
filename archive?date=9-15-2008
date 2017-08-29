@@ -1,0 +1,1136 @@
+<!doctype html><html class="no-js" lang="en"><head><script type="text/javascript">(window.NREUM||(NREUM={})).loader_config={xpid:"UwcOV1NACwcHVlFbAw=="};window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){var o=e[n]={exports:{}};t[n][0].call(o.exports,function(e){var o=t[n][1][e];return r(o||e)},o,o.exports)}return e[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<n.length;o++)r(n[o]);return r}({1:[function(t,e,n){function r(t){try{c.console&&console.log(t)}catch(e){}}var o,i=t("ee"),a=t(19),c={};try{o=localStorage.getItem("__nr_flags").split(","),console&&"function"==typeof console.log&&(c.console=!0,o.indexOf("dev")!==-1&&(c.dev=!0),o.indexOf("nr_dev")!==-1&&(c.nrDev=!0))}catch(s){}c.nrDev&&i.on("internal-error",function(t){r(t.stack)}),c.dev&&i.on("fn-err",function(t,e,n){r(n.stack)}),c.dev&&(r("NR AGENT IN DEVELOPMENT MODE"),r("flags: "+a(c,function(t,e){return t}).join(", ")))},{}],2:[function(t,e,n){function r(t,e,n,r,o){try{d?d-=1:i("err",[o||new UncaughtException(t,e,n)])}catch(c){try{i("ierr",[c,s.now(),!0])}catch(u){}}return"function"==typeof f&&f.apply(this,a(arguments))}function UncaughtException(t,e,n){this.message=t||"Uncaught error with no additional information",this.sourceURL=e,this.line=n}function o(t){i("err",[t,s.now()])}var i=t("handle"),a=t(20),c=t("ee"),s=t("loader"),f=window.onerror,u=!1,d=0;s.features.err=!0,t(1),window.onerror=r;try{throw new Error}catch(p){"stack"in p&&(t(12),t(11),"addEventListener"in window&&t(6),s.xhrWrappable&&t(13),u=!0)}c.on("fn-start",function(t,e,n){u&&(d+=1)}),c.on("fn-err",function(t,e,n){u&&(this.thrown=!0,o(n))}),c.on("fn-end",function(){u&&!this.thrown&&d>0&&(d-=1)}),c.on("internal-error",function(t){i("ierr",[t,s.now(),!0])})},{}],3:[function(t,e,n){t("loader").features.ins=!0},{}],4:[function(t,e,n){function r(){C++,M=y.hash,this[u]=b.now()}function o(){C--,y.hash!==M&&i(0,!0);var t=b.now();this[l]=~~this[l]+t-this[u],this[d]=t}function i(t,e){E.emit("newURL",[""+y,e])}function a(t,e){t.on(e,function(){this[e]=b.now()})}var c="-start",s="-end",f="-body",u="fn"+c,d="fn"+s,p="cb"+c,h="cb"+s,l="jsTime",m="fetch",v="addEventListener",w=window,y=w.location,b=t("loader");if(w[v]&&b.xhrWrappable){var g=t(9),x=t(10),E=t(8),O=t(6),R=t(12),P=t(7),T=t(13),S=t("ee"),N=S.get("tracer");t(14),b.features.spa=!0;var M,j=w[v],C=0;S.on(u,r),S.on(p,r),S.on(d,o),S.on(h,o),S.buffer([u,d,"xhr-done","xhr-resolved"]),O.buffer([u]),R.buffer(["setTimeout"+s,"clearTimeout"+c,u]),T.buffer([u,"new-xhr","send-xhr"+c]),P.buffer([m+c,m+"-done",m+f+c,m+f+s]),E.buffer(["newURL"]),g.buffer([u]),x.buffer(["propagate",p,h,"executor-err","resolve"+c]),N.buffer([u,"no-"+u]),a(T,"send-xhr"+c),a(S,"xhr-resolved"),a(S,"xhr-done"),a(P,m+c),a(P,m+"-done"),E.on("pushState-end",i),E.on("replaceState-end",i),j("hashchange",i,!0),j("load",i,!0),j("popstate",function(){i(0,C>1)},!0)}},{}],5:[function(t,e,n){function r(t){}if(window.performance&&window.performance.timing&&window.performance.getEntriesByType){var o=t("ee"),i=t("handle"),a=t(12),c=t(11),s="learResourceTimings",f="addEventListener",u="resourcetimingbufferfull",d="bstResource",p="resource",h="-start",l="-end",m="fn"+h,v="fn"+l,w="bstTimer",y="pushState",b=t("loader");b.features.stn=!0,t(8);var g=NREUM.o.EV;o.on(m,function(t,e){var n=t[0];n instanceof g&&(this.bstStart=b.now())}),o.on(v,function(t,e){var n=t[0];n instanceof g&&i("bst",[n,e,this.bstStart,b.now()])}),a.on(m,function(t,e,n){this.bstStart=b.now(),this.bstType=n}),a.on(v,function(t,e){i(w,[e,this.bstStart,b.now(),this.bstType])}),c.on(m,function(){this.bstStart=b.now()}),c.on(v,function(t,e){i(w,[e,this.bstStart,b.now(),"requestAnimationFrame"])}),o.on(y+h,function(t){this.time=b.now(),this.startPath=location.pathname+location.hash}),o.on(y+l,function(t){i("bstHist",[location.pathname+location.hash,this.startPath,this.time])}),f in window.performance&&(window.performance["c"+s]?window.performance[f](u,function(t){i(d,[window.performance.getEntriesByType(p)]),window.performance["c"+s]()},!1):window.performance[f]("webkit"+u,function(t){i(d,[window.performance.getEntriesByType(p)]),window.performance["webkitC"+s]()},!1)),document[f]("scroll",r,{passive:!0}),document[f]("keypress",r,!1),document[f]("click",r,!1)}},{}],6:[function(t,e,n){function r(t){for(var e=t;e&&!e.hasOwnProperty(u);)e=Object.getPrototypeOf(e);e&&o(e)}function o(t){c.inPlace(t,[u,d],"-",i)}function i(t,e){return t[1]}var a=t("ee").get("events"),c=t(22)(a,!0),s=t("gos"),f=XMLHttpRequest,u="addEventListener",d="removeEventListener";e.exports=a,"getPrototypeOf"in Object?(r(document),r(window),r(f.prototype)):f.prototype.hasOwnProperty(u)&&(o(window),o(f.prototype)),a.on(u+"-start",function(t,e){var n=t[1],r=s(n,"nr@wrapped",function(){function t(){if("function"==typeof n.handleEvent)return n.handleEvent.apply(n,arguments)}var e={object:t,"function":n}[typeof n];return e?c(e,"fn-",null,e.name||"anonymous"):n});this.wrapped=t[1]=r}),a.on(d+"-start",function(t){t[1]=this.wrapped||t[1]})},{}],7:[function(t,e,n){function r(t,e,n){var r=t[e];"function"==typeof r&&(t[e]=function(){var t=r.apply(this,arguments);return o.emit(n+"start",arguments,t),t.then(function(e){return o.emit(n+"end",[null,e],t),e},function(e){throw o.emit(n+"end",[e],t),e})})}var o=t("ee").get("fetch"),i=t(19);e.exports=o;var a=window,c="fetch-",s=c+"body-",f=["arrayBuffer","blob","json","text","formData"],u=a.Request,d=a.Response,p=a.fetch,h="prototype";u&&d&&p&&(i(f,function(t,e){r(u[h],e,s),r(d[h],e,s)}),r(a,"fetch",c),o.on(c+"end",function(t,e){var n=this;e?e.clone().arrayBuffer().then(function(t){n.rxSize=t.byteLength,o.emit(c+"done",[null,e],n)}):o.emit(c+"done",[t],n)}))},{}],8:[function(t,e,n){var r=t("ee").get("history"),o=t(22)(r);e.exports=r,o.inPlace(window.history,["pushState","replaceState"],"-")},{}],9:[function(t,e,n){var r=t("ee").get("mutation"),o=t(22)(r),i=NREUM.o.MO;e.exports=r,i&&(window.MutationObserver=function(t){return this instanceof i?new i(o(t,"fn-")):i.apply(this,arguments)},MutationObserver.prototype=i.prototype)},{}],10:[function(t,e,n){function r(t){var e=a.context(),n=c(t,"executor-",e),r=new f(n);return a.context(r).getCtx=function(){return e},a.emit("new-promise",[r,e],e),r}function o(t,e){return e}var i=t(22),a=t("ee").get("promise"),c=i(a),s=t(19),f=NREUM.o.PR;e.exports=a,f&&(window.Promise=r,["all","race"].forEach(function(t){var e=f[t];f[t]=function(n){function r(t){return function(){a.emit("propagate",[null,!o],i),o=o||!t}}var o=!1;s(n,function(e,n){Promise.resolve(n).then(r("all"===t),r(!1))});var i=e.apply(f,arguments),c=f.resolve(i);return c}}),["resolve","reject"].forEach(function(t){var e=f[t];f[t]=function(t){var n=e.apply(f,arguments);return t!==n&&a.emit("propagate",[t,!0],n),n}}),f.prototype["catch"]=function(t){return this.then(null,t)},f.prototype=Object.create(f.prototype,{constructor:{value:r}}),s(Object.getOwnPropertyNames(f),function(t,e){try{r[e]=f[e]}catch(n){}}),a.on("executor-start",function(t){t[0]=c(t[0],"resolve-",this),t[1]=c(t[1],"resolve-",this)}),a.on("executor-err",function(t,e,n){t[1](n)}),c.inPlace(f.prototype,["then"],"then-",o),a.on("then-start",function(t,e){this.promise=e,t[0]=c(t[0],"cb-",this),t[1]=c(t[1],"cb-",this)}),a.on("then-end",function(t,e,n){this.nextPromise=n;var r=this.promise;a.emit("propagate",[r,!0],n)}),a.on("cb-end",function(t,e,n){a.emit("propagate",[n,!0],this.nextPromise)}),a.on("propagate",function(t,e,n){this.getCtx&&!e||(this.getCtx=function(){if(t instanceof Promise)var e=a.context(t);return e&&e.getCtx?e.getCtx():this})}),r.toString=function(){return""+f})},{}],11:[function(t,e,n){var r=t("ee").get("raf"),o=t(22)(r),i="equestAnimationFrame";e.exports=r,o.inPlace(window,["r"+i,"mozR"+i,"webkitR"+i,"msR"+i],"raf-"),r.on("raf-start",function(t){t[0]=o(t[0],"fn-")})},{}],12:[function(t,e,n){function r(t,e,n){t[0]=a(t[0],"fn-",null,n)}function o(t,e,n){this.method=n,this.timerDuration=isNaN(t[1])?0:+t[1],t[0]=a(t[0],"fn-",this,n)}var i=t("ee").get("timer"),a=t(22)(i),c="setTimeout",s="setInterval",f="clearTimeout",u="-start",d="-";e.exports=i,a.inPlace(window,[c,"setImmediate"],c+d),a.inPlace(window,[s],s+d),a.inPlace(window,[f,"clearImmediate"],f+d),i.on(s+u,r),i.on(c+u,o)},{}],13:[function(t,e,n){function r(t,e){d.inPlace(e,["onreadystatechange"],"fn-",c)}function o(){var t=this,e=u.context(t);t.readyState>3&&!e.resolved&&(e.resolved=!0,u.emit("xhr-resolved",[],t)),d.inPlace(t,y,"fn-",c)}function i(t){b.push(t),l&&(x?x.then(a):v?v(a):(E=-E,O.data=E))}function a(){for(var t=0;t<b.length;t++)r([],b[t]);b.length&&(b=[])}function c(t,e){return e}function s(t,e){for(var n in t)e[n]=t[n];return e}t(6);var f=t("ee"),u=f.get("xhr"),d=t(22)(u),p=NREUM.o,h=p.XHR,l=p.MO,m=p.PR,v=p.SI,w="readystatechange",y=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"],b=[];e.exports=u;var g=window.XMLHttpRequest=function(t){var e=new h(t);try{u.emit("new-xhr",[e],e),e.addEventListener(w,o,!1)}catch(n){try{u.emit("internal-error",[n])}catch(r){}}return e};if(s(h,g),g.prototype=h.prototype,d.inPlace(g.prototype,["open","send"],"-xhr-",c),u.on("send-xhr-start",function(t,e){r(t,e),i(e)}),u.on("open-xhr-start",r),l){var x=m&&m.resolve();if(!v&&!m){var E=1,O=document.createTextNode(E);new l(a).observe(O,{characterData:!0})}}else f.on("fn-end",function(t){t[0]&&t[0].type===w||a()})},{}],14:[function(t,e,n){function r(t){var e=this.params,n=this.metrics;if(!this.ended){this.ended=!0;for(var r=0;r<d;r++)t.removeEventListener(u[r],this.listener,!1);if(!e.aborted){if(n.duration=a.now()-this.startTime,4===t.readyState){e.status=t.status;var i=o(t,this.lastSize);if(i&&(n.rxSize=i),this.sameOrigin){var s=t.getResponseHeader("X-NewRelic-App-Data");s&&(e.cat=s.split(", ").pop())}}else e.status=0;n.cbTime=this.cbTime,f.emit("xhr-done",[t],t),c("xhr",[e,n,this.startTime])}}}function o(t,e){var n=t.responseType;if("json"===n&&null!==e)return e;var r="arraybuffer"===n||"blob"===n||"json"===n?t.response:t.responseText;return l(r)}function i(t,e){var n=s(e),r=t.params;r.host=n.hostname+":"+n.port,r.pathname=n.pathname,t.sameOrigin=n.sameOrigin}var a=t("loader");if(a.xhrWrappable){var c=t("handle"),s=t(15),f=t("ee"),u=["load","error","abort","timeout"],d=u.length,p=t("id"),h=t(18),l=t(17),m=window.XMLHttpRequest;a.features.xhr=!0,t(13),f.on("new-xhr",function(t){var e=this;e.totalCbs=0,e.called=0,e.cbTime=0,e.end=r,e.ended=!1,e.xhrGuids={},e.lastSize=null,h&&(h>34||h<10)||window.opera||t.addEventListener("progress",function(t){e.lastSize=t.loaded},!1)}),f.on("open-xhr-start",function(t){this.params={method:t[0]},i(this,t[1]),this.metrics={}}),f.on("open-xhr-end",function(t,e){"loader_config"in NREUM&&"xpid"in NREUM.loader_config&&this.sameOrigin&&e.setRequestHeader("X-NewRelic-ID",NREUM.loader_config.xpid)}),f.on("send-xhr-start",function(t,e){var n=this.metrics,r=t[0],o=this;if(n&&r){var i=l(r);i&&(n.txSize=i)}this.startTime=a.now(),this.listener=function(t){try{"abort"===t.type&&(o.params.aborted=!0),("load"!==t.type||o.called===o.totalCbs&&(o.onloadCalled||"function"!=typeof e.onload))&&o.end(e)}catch(n){try{f.emit("internal-error",[n])}catch(r){}}};for(var c=0;c<d;c++)e.addEventListener(u[c],this.listener,!1)}),f.on("xhr-cb-time",function(t,e,n){this.cbTime+=t,e?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof n.onload||this.end(n)}),f.on("xhr-load-added",function(t,e){var n=""+p(t)+!!e;this.xhrGuids&&!this.xhrGuids[n]&&(this.xhrGuids[n]=!0,this.totalCbs+=1)}),f.on("xhr-load-removed",function(t,e){var n=""+p(t)+!!e;this.xhrGuids&&this.xhrGuids[n]&&(delete this.xhrGuids[n],this.totalCbs-=1)}),f.on("addEventListener-end",function(t,e){e instanceof m&&"load"===t[0]&&f.emit("xhr-load-added",[t[1],t[2]],e)}),f.on("removeEventListener-end",function(t,e){e instanceof m&&"load"===t[0]&&f.emit("xhr-load-removed",[t[1],t[2]],e)}),f.on("fn-start",function(t,e,n){e instanceof m&&("onload"===n&&(this.onload=!0),("load"===(t[0]&&t[0].type)||this.onload)&&(this.xhrCbStart=a.now()))}),f.on("fn-end",function(t,e){this.xhrCbStart&&f.emit("xhr-cb-time",[a.now()-this.xhrCbStart,this.onload,e],e)})}},{}],15:[function(t,e,n){e.exports=function(t){var e=document.createElement("a"),n=window.location,r={};e.href=t,r.port=e.port;var o=e.href.split("://");!r.port&&o[1]&&(r.port=o[1].split("/")[0].split("@").pop().split(":")[1]),r.port&&"0"!==r.port||(r.port="https"===o[0]?"443":"80"),r.hostname=e.hostname||n.hostname,r.pathname=e.pathname,r.protocol=o[0],"/"!==r.pathname.charAt(0)&&(r.pathname="/"+r.pathname);var i=!e.protocol||":"===e.protocol||e.protocol===n.protocol,a=e.hostname===document.domain&&e.port===n.port;return r.sameOrigin=i&&(!e.hostname||a),r}},{}],16:[function(t,e,n){function r(){}function o(t,e,n){return function(){return i(t,[f.now()].concat(c(arguments)),e?null:this,n),e?void 0:this}}var i=t("handle"),a=t(19),c=t(20),s=t("ee").get("tracer"),f=t("loader"),u=NREUM;"undefined"==typeof window.newrelic&&(newrelic=u);var d=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit","addRelease"],p="api-",h=p+"ixn-";a(d,function(t,e){u[e]=o(p+e,!0,"api")}),u.addPageAction=o(p+"addPageAction",!0),u.setCurrentRouteName=o(p+"routeName",!0),e.exports=newrelic,u.interaction=function(){return(new r).get()};var l=r.prototype={createTracer:function(t,e){var n={},r=this,o="function"==typeof e;return i(h+"tracer",[f.now(),t,n],r),function(){if(s.emit((o?"":"no-")+"fn-start",[f.now(),r,o],n),o)try{return e.apply(this,arguments)}finally{s.emit("fn-end",[f.now()],n)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,e){l[e]=o(h+e)}),newrelic.noticeError=function(t){"string"==typeof t&&(t=new Error(t)),i("err",[t,f.now()])}},{}],17:[function(t,e,n){e.exports=function(t){if("string"==typeof t&&t.length)return t.length;if("object"==typeof t){if("undefined"!=typeof ArrayBuffer&&t instanceof ArrayBuffer&&t.byteLength)return t.byteLength;if("undefined"!=typeof Blob&&t instanceof Blob&&t.size)return t.size;if(!("undefined"!=typeof FormData&&t instanceof FormData))try{return JSON.stringify(t).length}catch(e){return}}}},{}],18:[function(t,e,n){var r=0,o=navigator.userAgent.match(/Firefox[\/\s](\d+\.\d+)/);o&&(r=+o[1]),e.exports=r},{}],19:[function(t,e,n){function r(t,e){var n=[],r="",i=0;for(r in t)o.call(t,r)&&(n[i]=e(r,t[r]),i+=1);return n}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],20:[function(t,e,n){function r(t,e,n){e||(e=0),"undefined"==typeof n&&(n=t?t.length:0);for(var r=-1,o=n-e||0,i=Array(o<0?0:o);++r<o;)i[r]=t[e+r];return i}e.exports=r},{}],21:[function(t,e,n){e.exports={exists:"undefined"!=typeof window.performance&&window.performance.timing&&"undefined"!=typeof window.performance.timing.navigationStart}},{}],22:[function(t,e,n){function r(t){return!(t&&t instanceof Function&&t.apply&&!t[a])}var o=t("ee"),i=t(20),a="nr@original",c=Object.prototype.hasOwnProperty,s=!1;e.exports=function(t,e){function n(t,e,n,o){function nrWrapper(){var r,a,c,s;try{a=this,r=i(arguments),c="function"==typeof n?n(r,a):n||{}}catch(f){p([f,"",[r,a,o],c])}u(e+"start",[r,a,o],c);try{return s=t.apply(a,r)}catch(d){throw u(e+"err",[r,a,d],c),d}finally{u(e+"end",[r,a,s],c)}}return r(t)?t:(e||(e=""),nrWrapper[a]=t,d(t,nrWrapper),nrWrapper)}function f(t,e,o,i){o||(o="");var a,c,s,f="-"===o.charAt(0);for(s=0;s<e.length;s++)c=e[s],a=t[c],r(a)||(t[c]=n(a,f?c+o:o,i,c))}function u(n,r,o){if(!s||e){var i=s;s=!0;try{t.emit(n,r,o,e)}catch(a){p([a,n,r,o])}s=i}}function d(t,e){if(Object.defineProperty&&Object.keys)try{var n=Object.keys(t);return n.forEach(function(n){Object.defineProperty(e,n,{get:function(){return t[n]},set:function(e){return t[n]=e,e}})}),e}catch(r){p([r])}for(var o in t)c.call(t,o)&&(e[o]=t[o]);return e}function p(e){try{t.emit("internal-error",e)}catch(n){}}return t||(t=o),n.inPlace=f,n.flag=a,n}},{}],ee:[function(t,e,n){function r(){}function o(t){function e(t){return t&&t instanceof r?t:t?s(t,c,i):i()}function n(n,r,o,i){if(!p.aborted||i){t&&t(n,r,o);for(var a=e(o),c=l(n),s=c.length,f=0;f<s;f++)c[f].apply(a,r);var d=u[y[n]];return d&&d.push([b,n,r,a]),a}}function h(t,e){w[t]=l(t).concat(e)}function l(t){return w[t]||[]}function m(t){return d[t]=d[t]||o(n)}function v(t,e){f(t,function(t,n){e=e||"feature",y[n]=e,e in u||(u[e]=[])})}var w={},y={},b={on:h,emit:n,get:m,listeners:l,context:e,buffer:v,abort:a,aborted:!1};return b}function i(){return new r}function a(){(u.api||u.feature)&&(p.aborted=!0,u=p.backlog={})}var c="nr@context",s=t("gos"),f=t(19),u={},d={},p=e.exports=o();p.backlog=u},{}],gos:[function(t,e,n){function r(t,e,n){if(o.call(t,e))return t[e];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,e,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return t[e]=r,r}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],handle:[function(t,e,n){function r(t,e,n,r){o.buffer([t],r),o.emit(t,e,n)}var o=t("ee").get("handle");e.exports=r,r.ee=o},{}],id:[function(t,e,n){function r(t){var e=typeof t;return!t||"object"!==e&&"function"!==e?-1:t===window?0:a(t,i,function(){return o++})}var o=1,i="nr@id",a=t("gos");e.exports=r},{}],loader:[function(t,e,n){function r(){if(!x++){var t=g.info=NREUM.info,e=p.getElementsByTagName("script")[0];if(setTimeout(u.abort,3e4),!(t&&t.licenseKey&&t.applicationID&&e))return u.abort();f(y,function(e,n){t[e]||(t[e]=n)}),s("mark",["onload",a()+g.offset],null,"api");var n=p.createElement("script");n.src="https://"+t.agent,e.parentNode.insertBefore(n,e)}}function o(){"complete"===p.readyState&&i()}function i(){s("mark",["domContent",a()+g.offset],null,"api")}function a(){return E.exists&&performance.now?Math.round(performance.now()):(c=Math.max((new Date).getTime(),c))-g.offset}var c=(new Date).getTime(),s=t("handle"),f=t(19),u=t("ee"),d=window,p=d.document,h="addEventListener",l="attachEvent",m=d.XMLHttpRequest,v=m&&m.prototype;NREUM.o={ST:setTimeout,SI:d.setImmediate,CT:clearTimeout,XHR:m,REQ:d.Request,EV:d.Event,PR:d.Promise,MO:d.MutationObserver};var w=""+location,y={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-spa-1044.min.js"},b=m&&v&&v[h]&&!/CriOS/.test(navigator.userAgent),g=e.exports={offset:c,now:a,origin:w,features:{},xhrWrappable:b};t(16),p[h]?(p[h]("DOMContentLoaded",i,!1),d[h]("load",r,!1)):(p[l]("onreadystatechange",o),d[l]("onload",r)),s("mark",["firstbyte",c],null,"api");var x=0,E=t(21)},{}]},{},["loader",2,14,5,3,4]);</script><script>
+   try {var _sf_startpt=(new Date()).getTime();} catch(e){}
+</script>
+<meta itemscope itemtype="https://schema.org/SpeakableSpecification" itemref="speakable" /><title>Podcast : Planet Money : NPR</title><meta id="speakable" itemprop="cssSelector" content="[data-is-speakable]" /><meta charset="utf-8" /><meta name="robots" content="noindex" /><meta name="Rating" content="General" /><meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" /><meta name="npr-pjax" /><meta name="date" content="2012-09-20" /><link rel="canonical" href="http://www.npr.org/sections/money/127413729/podcast/" /><meta name="description" content="Planet Money produces two podcasts each week. Find them here or subscribe on iTunes." /><link rel="alternate" type="application/rss+xml" title="Business" href="/rss/rss.php?id=1006" /><link rel="alternate" type="application/rss+xml" title="Planet Money" href="/rss/rss.php?id=93559255" /><meta property="og:title" content="Podcast" /><meta property="og:url" content="http://www.npr.org/sections/money/127413729/podcast/" /><meta property="og:type" content="article" /><meta property="og:description" content="Planet Money produces two podcasts each week. Find them here or subscribe on iTunes." /><meta property="og:image" content="https://media.npr.org/include/images/facebook-default-wide.jpg?s=1400" /><meta property="og:site_name" content="NPR.org" /><meta property="fb:app_id" content="138837436154588" /><meta property="fb:pages" content="10643211755" /><meta name="twitter:card" content="summary" /><meta name="twitter:site" content="@NPR" /><meta name="twitter:domain" content="npr.org" /><script id="npr-vars">
+   window.NPR = window.NPR || {};
+NPR.ServerConstants = {"cbHost":"npr.org","webHost":"http:\/\/www.npr.org","embedHost":"https:\/\/www.npr.org","webHostSecure":"https:\/\/secure.npr.org","apiHost":"https:\/\/api.npr.org","staticAssetHost":"https:\/\/s.npr.org","serverMediaCache":"https:\/\/media.npr.org","googleAnalyticsAccount":"UA-5828686-4","gtmKey":"GTM-K9RKM5","nielsenSFCode":"dcr","nielsenAPN":"NPR-dcr"};
+NPR.serverVars = {"storyId":"127413729","initialStories":3,"facebookAppId":"138837436154588","webpackPublicPath":"https:\/\/s.npr.org\/templates\/javascript\/dist\/bundles\/","persistenceVersion":"8f05e793f6275887393340b71526805c","isBuildOut":false,"topicIds":["P1006","1017"],"primaryTopic":"Business","topics":["Business","Economy"],"blog":"Planet Money","theme":"93559255","aggIds":["1006","1017","93559255"],"pubDate":"2012092019","pageTypeId":"25","title":"Podcast","infiniteNumResults":15,"rocketfuelCode":20501671};
+</script>
+<script type="text/javascript" src="https://s.npr.org/templates/javascript/lib/modernizr/modernizr.custom.js">
+   </script>
+<script>
+   !function(e){function c(a){if(d[a])return d[a].exports;var f=d[a]={exports:{},id:a,loaded:!1};return e[a].call(f.exports,f,f.exports,c),f.loaded=!0,f.exports}var a=window.webpackJsonp;window.webpackJsonp=function(b,t){for(var n,r,o=0,i=[];o<b.length;o++)r=b[o],f[r]&&i.push.apply(i,f[r]),f[r]=0;for(n in t){var s=t[n];switch(typeof s){case"object":e[n]=function(c){var a=c.slice(1),d=c[0];return function(c,f,b){e[d].apply(this,[c,f,b].concat(a))}}(s);break;case"function":e[n]=s;break;default:e[n]=e[s]}}for(a&&a(b,t);i.length;)i.shift().call(null,c);if(t[0])return d[0]=0,c(0)};var d={},f={22:0};c.e=function(e,a){if(0===f[e])return a.call(null,c);if(void 0!==f[e])f[e].push(a);else{f[e]=[a];var d=document.getElementsByTagName("head")[0],b=document.createElement("script");b.type="text/javascript",b.charset="utf-8",b.async=!0,b.src=c.p+""+e+"."+{0:"7e0b6aef53710d7b03a7",1:"1fe5cbd042338607d651",2:"f937c4c19854b2ac8c8c",3:"184cc1b288a9cfb2970f",4:"54ad3edbc270c925baca",5:"1ffc104c68489a404159",6:"3a79994b3d0384f7c735",7:"4b45f48d813ab77e5008",8:"a0843652282d9a13aae1",9:"d523ca1399cbdab3d51e",10:"99b062937c96ed6dafd7",11:"2a5fee9900f6cde38ad5",12:"46ac6d84594129998726",13:"25fb06055c193ffac826",14:"2f959401820956e91ed4",15:"f0a40c20153e95ede6e0",16:"3727d78e5070025a7148",17:"fd4cf02f8d374c7c6729",18:"2f05d48ef5baca9cb0f8",19:"add25beef7a5e2db3307",20:"eb5e9b1e598310ab2b98",21:"3d3e0b6e7e534c0e5a65",23:"46d20ef90c23bcf155b7",24:"beacb7da4fcb51e31592",25:"4d6bc8bcf17e7db373b5",26:"fe5a9847c5323fd3db6f",27:"13ab861fd910099f0436",28:"6d1e890fb4076d4c97fb",29:"60503b1c4e274dc94745",30:"0066174ad2bde67804d9",31:"b01cdf88ece38e3ccb51",32:"95fc6db43f899a008cdf",33:"d2b682541d6e09134824",34:"e696df3a273460815b50",35:"3d85ae34a575ebd4fc96",36:"4dc8c9f8a50f60d07bab",37:"bcda1792ee587fd16734",38:"7a162e6da1a731d86baa",39:"de9ca003e56c794a6ee6",40:"30e8de560f5727d397e3",41:"1f605e1223539618580f",42:"50b6e2f68adc4993d7ac",43:"bde76fcb63f18238e603",44:"ee9bae361a8c771c392c",45:"b2ec625fddcfa460d985",46:"dbc93c98d9e014448d1f",47:"bcd56acd65c3287c6c99",48:"3a3b99df4b02eae00165",49:"fd314e1738222b6f7a1e",50:"21f3695be30d77557e2b",51:"a394a3e076f4d090ec44",52:"65da8656291e8334645e",53:"2133563640d8623dcd50",54:"5890ddf83291fd6ac14c",55:"d453ac6e459a3d58259e",56:"e5f02262d9da45ec0006",57:"198ac362be972c52a0c6",58:"b0fddbba0890c397165e",59:"7078be64fa186786eabd",60:"94e89eaee279347cd6b9",61:"f07586341575e4200fc0",62:"4a9a2f22580a6ee5bf13",63:"ab39c86cdc99440be4bb",64:"001b93585e102f64856c",65:"d10567e596d982938c0c",66:"2fbfcf4d21cc782cf1a9",67:"57243d0e4cdc28553f08",68:"befee50a0dba7861e676",69:"6928c61dca567f2574d4",70:"61bd6466c92629e0ecd2",71:"56088a1792407faeb10b",72:"ea2ff94e0325826d0a19",73:"c906e258b3d44228b59c",74:"a1158f387c8aaa92d652"}[e]+".chunk.js",d.appendChild(b)}},c.m=e,c.c=d,c.p="/templates/javascript/dist/bundles/"}(function(e){for(var c in e)if(Object.prototype.hasOwnProperty.call(e,c))switch(typeof e[c]){case"function":break;case"object":e[c]=function(c){var a=c.slice(1),d=e[c[0]];return function(e,c,f){d.apply(this,[e,c,f].concat(a))}}(e[c]);break;default:e[c]=e[e[c]]}return e}([]));
+</script>
+<link rel="stylesheet" data-persist="true" media="screen, print" href="https://s.npr.org/templates/javascript/dist/bundles/persistent-css-5202845aa7411b821b01.css" /><link rel="stylesheet" media="screen, print" href="https://s.npr.org/templates/javascript/dist/bundles/aggNews-css-5202845aa7411b821b01.css" /><link rel="stylesheet" media="screen" href="http://www.npr.org/branding/sections/money/branding.css" /><script type="text/javascript">
+   document.domain="npr.org";
+</script>
+</head><body id="news" class="news tmplBlogNewsCategory agg archive thing-type-category blog id127413729 " data-pjax-modules="util/env images/lazy-load chartbeat comscore metrics nielsen nielsenDCR rocketfuel copyright auto-refresh navigation/globalnav fitvids googletag dfp globalfooter persistent-audio player/more-options what-input metrics/doubleclickFloodlight metrics/facebookTracking infinitescroll agg/archive recommendations/end-of-story-recommendations-callout images/hover-credits"><div class="skip-links">
+      <h2>Accessibility links</h2>
+   <ul>
+            <li><a href="#mainContent" class="skiplink">Skip to main content</a></li>
+      <li><a href="https://help.npr.org/customer/en/portal/articles/2535181-what-are-the-keyboard-shortcuts-for-using-the-npr-org-audio-player-" class="skiplink">Keyboard shortcuts for audio player</a></li>
+   </ul>
+</div>
+<!--googleoff: index--><header id="globalheader" class="globalheader" aria-label="NPR header"><div class="globalheader-inner" data-metrics-all data-metrics-category="global navigation">
+    <div class="lead" data-metrics-action="click npr logo">
+        <button class="sidebar-button" id="js-sidebar-button" aria-controls="global-navigation-wrap" aria-expanded="false" data-metrics-action="toggle offcanvas">View Navigation</button>
+
+        <!-- General color logo -->
+        <a href="/" class="nprhome nprhome-news" data-metrics-action="click npr logo">
+            <img src="//media.npr.org/chrome_svg/npr-logo-color.svg" alt="NPR logo"/>
+            <h2 class="ecosystem-name">NPR</h2>
+        </a>
+
+        <!-- General b&w line logo -->
+        <a href="/" class="nprhome nprhome-news-alt" data-metrics-action="click npr logo">
+            <img src="//media.npr.org/chrome_svg/npr_logo.svg" alt="NPR logo"/>
+            <h2 class="ecosystem-name">NPR</h2>
+        </a>
+
+        <!-- Music color logo -->
+        <a href="/music/" class="nprhome nprhome-music" data-metrics-action="click npr logo">
+            <img src="//media.npr.org/chrome_svg/music-logo-outline-thick.svg" alt="NPR Music logo"/>
+            <h2 class="ecosystem-name">NPR Music</h2>
+        </a>
+
+        <!-- Books color logo -->
+        <a href="/books/" class="nprhome nprhome-books" data-metrics-action="click npr logo">
+            <img src="//media.npr.org/chrome_svg/npr-logo-color.svg" alt="NPR logo"/>
+            <h2 class="ecosystem-name"><b>NPR</b> Books</h2>
+        </a>
+
+        <!-- About color logo -->
+        <a href="/sections/750000/about-npr/" class="nprhome nprhome-about" data-metrics-action="click npr logo">
+            <img src="//media.npr.org/chrome_svg/npr-logo-color.svg" alt="NPR logo"/>
+            <h2 class="ecosystem-name"><b>NPR</b> About</h2>
+        </a>
+
+        <!-- Podcasts -->
+        <a href="/podcasts/" class="nprhome nprhome-podcast" data-metrics-action="click npr logo">
+            <img src="//media.npr.org/chrome_svg/podcasts/headphones-ee3d23.svg" alt="NPR Podcast Directory logo" class="img-headphones" />
+            <img src="//media.npr.org/chrome_svg/npr-logo-color.svg" alt="NPR logo" class="img-npr-logo" />
+            <h2 class="ecosystem-name"><b>NPR</b>Podcast Directory</h2>
+        </a>
+
+        <div class="search-wrapper">
+            <form action="/search/index.php" method="get" name="searchForm" id="searchForm" class="search pjaxForm" role="search" aria-label="Search NPR">
+                <label for="searchinput">Search</label>
+                <input type="search" name="searchinput" id="searchinput" class="textbox searchbox" autocorrect="off"/>
+                <a href="#" class="search-toggle" data-metrics-action="expand search">Toggle search</a>
+            </form>
+        </div>
+    </div>
+    <!-- /.lead -->
+
+    <div class="global-navigation-wrap" id="global-navigation-wrap">
+        <nav class="global-navigation" aria-label="main navigation">
+            <!-- see globalnav.js for documentation on how topbar subnav dropdown system works -->
+
+            <div class="top-level">
+                <ul class="top-level-list ecosystem-all primary">
+                    <li class="nprhome"><a href="/" data-metrics-action="click npr logo">NPR Home</a></li>
+                    <!--<li class="stations has-subnav"><a href="/stations" data-metrics-action="click find stations">Find Stations</a></li>-->
+                    <li id="station-navigation-mount"></li>
+                </ul>
+
+                <ul class="top-level-list ecosystem-news primary" data-metrics-category="global navigation">
+                    <li class="news"><a href="/sections/news/" data-metrics-action="click news">News</a></li>
+                    <li class="arts-life"><a href="/sections/arts/" data-metrics-action="click arts & life">Arts &amp; Life</a></li>
+                    <li class="music"><a href="/music/" data-metrics-action="click music">Music</a></li>
+                    <li class="topics has-subnav"><a href="/programs" data-metrics-action="toggle topics" data-metrics-label="#">Topics</a></li>
+                    <li class="programs-podcasts has-subnav">
+                        <a href="/programs" data-metrics-action="toggle programs & podcasts drawer">
+                            Programs&nbsp;<b>&amp; Podcasts</b>
+                        </a>
+                    </li>
+                </ul>
+                <!-- /.ecosystem-news.primary -->
+
+                <ul class="top-level-list ecosystem-music primary" data-metrics-category="music ecosystem navigation">
+                    <li class="music-home">
+                        <a href="/music/" data-metrics-action="click npr music">NPR Music</a>
+                    </li>
+                    <li class="genres has-subnav"><a href="#" data-metrics-action="toggle genres drawer">Genres</a></li>
+                    <li class="new-music has-subnav">
+                        <a href="#" data-metrics-action="toggle new music drawer">New Music</a>
+                    </li>
+                    <li class="concerts-videos has-subnav">
+                        <a href="#" data-metrics-action="toggle concerts drawer">Concerts&nbsp;<b>&amp; Videos</b></a>
+                    </li>
+                    <li class="articles-lists has-subnav">
+                        <a href="#" data-metrics-action="toggle articles drawer">Articles&nbsp;<b>&amp; Lists</b></a>
+                    </li>
+                    <li class="tiny-desk alternate">
+                        <a href="/series/tiny-desk-concerts/" data-metrics-action="click tiny desk">Tiny Desk</a>
+                    </li>
+                </ul>
+                <!-- /.ecosystem-music.primary -->
+
+                <ul class="top-level-list ecosystem-books primary" data-metrics-category="books ecosystem navigation">
+                    <li class="books-home">
+                        <a href="/books/" data-metrics-action="click npr books">NPR Books</a>
+                    </li>
+                    <li class="author-interviews">
+                        <a href="/sections/author-interviews/" data-metrics-action="click author interviews"><b>Author </b>Interviews</a>
+                    </li>
+                    <li class="find-books has-subnav">
+                        <a href="#" data-metrics-action="toggle find books drawer">Find Books</a>
+                    </li>
+                    <li class="reviews has-subnav">
+                        <a href="#" data-metrics-action="toggle reviews drawer">Reviews</a>
+                    </li>
+                </ul>
+                <!-- /.ecosystem-books.primary -->
+
+                <ul class="top-level-list ecosystem-about primary" data-metrics-category="about ecosystem navigation">
+                    <li class="about-home">
+                        <a href="/about/" data-metrics-action="click about npr">About NPR</a>
+                    </li>
+                    <li class="overview has-subnav">
+                        <a href="/about/aboutnpr/" data-metrics-action="toggle overview drawer">Overview</a>
+                    </li>
+                    <li class="connect has-subnav">
+                        <a href="#" data-metrics-action="toggle connect drawer">Connect</a>
+                    </li>
+                    <li class="support has-subnav">
+                        <a href="/about/support/" data-metrics-action="toggle support drawer">Support</a>
+                    </li>
+                    <li class="press has-subnav">
+                        <a href="/series/750003/press-room/" data-metrics-action="toggle press drawer">Press</a>
+                    </li>
+                    <li class="careers has-subnav">
+                        <a href="/series/750004/careers" data-metrics-action="toggle careers drawer">Careers</a>
+                    </li>
+                </ul>
+                <!-- /.ecosystem-about.primary -->
+
+                <ul class="top-level-list ecosystem-podcast primary" data-metrics-category="podcast ecosystem navigation">
+                    <li class="podcasts-home">
+                        <a href="/podcasts/" data-metrics-action="click podcast directory">Podcast Directory</a>
+                    </li>
+
+                    <li class="podcast-categories has-subnav">
+                        <a href="#" data-metrics-action="toggle categories">Categories</a>
+                    </li>
+                    <li class="podcast-local">
+                        <div id="local-podcasts-nav-mount" class="podcast-local"></div>
+                        <!-- data comes via JavaScript -->
+                    </li>
+                </ul>
+                <!-- /.ecosystem-podcast.primary -->
+
+                <ul class="top-level-list ecosystem-all secondary" data-metrics-category="global navigation">
+                    <li id="station-donate-mount"></li>
+
+                    <li class="nprshop">
+                        <a href="https://shop.npr.org" data-metrics-action="click npr shop">Shop</a>
+                    </li>
+                    <li id="user-account-access-dropdown-mount"></li>
+                </ul>
+                <!-- /.ecosystem-all.secondary -->
+            </div>
+            <!-- /.top-level -->
+
+            <!-- News ecosystem -->
+            <div class="subnav subnav-topics ecosystem-news" data-metrics-category="global navigation">
+                <a class="back back-to-top-level"><b class="icn-back"></b>Back</a>
+                <div class="group">
+                    <h3 class="group-hdr"><a href="/sections/news/" data-metrics-action="click news">News</a></h3>
+                    <ul>
+                        <li><a href="/sections/us/" data-metrics-action="click u.s.">U.S.</a></li>
+                        <li><a href="/sections/world/" data-metrics-action="click world">World</a></li>
+                        <li><a href="/sections/politics/" data-metrics-action="click politics">Politics</a></li>
+                        <li><a href="/sections/business/" data-metrics-action="click business">Business</a></li>
+                        <li><a href="/sections/technology/" data-metrics-action="click technology">Technology</a></li>
+                        <li><a href="/sections/science/" data-metrics-action="click science">Science</a></li>
+                        <li><a href="/sections/health/" data-metrics-action="click health">Health</a></li>
+                        <li><a href="/sections/codeswitch/" data-metrics-action="click race & culture">Race &amp; Culture</a></li>
+                        <li><a href="/sections/ed/" data-metrics-action="click education">Education</a></li>
+                    </ul>
+                </div>
+                <div class="group">
+                    <h3 class="group-hdr"><a href="/sections/arts/" data-metrics-action="click arts & life">Arts &amp; Life</a></h3>
+                    <ul>
+                        <li><a href="/books/" data-metrics-action="click books">Books</a></li>
+                        <li><a href="/sections/movies/" data-metrics-action="click movies">Movies</a></li>
+                        <li><a href="/sections/pop-culture/" data-metrics-action="click pop culture">Pop Culture</a></li>
+                        <li><a href="/sections/food/" data-metrics-action="click food">Food</a></li>
+                        <li><a href="/sections/art-design/" data-metrics-action="click art & design">Art &amp; Design</a></li>
+                        <li><a href="/sections/performing-arts/" data-metrics-action="click performing arts">Performing Arts</a></li>
+                        <li><a href="/sections/photography/" data-metrics-action="click photography">Photography</a></li>
+                    </ul>
+                </div>
+                <div class="group">
+                    <h3 class="group-hdr"><a href="/music/" data-metrics-action="click music">Music</a></h3>
+                    <ul>
+
+                        <li><a href="/series/98679384/first-listen" data-metrics-action="click first listen">First Listen</a></li>
+                        <li><a href="/series/122356178/songs-we-love" data-metrics-action="click songs we love">Songs We Love</a></li>
+                        <li><a href="/series/100920965/music-articles/" data-metrics-action="click music articles">Music Articles</a></li>
+                        <li><a href="/series/tiny-desk-concerts/" data-metrics-action="click tiny desk">Tiny Desk</a></li>
+                        <li><a href="/sections/music-videos/" data-metrics-action="click videos">Videos</a></li>
+                    </ul>
+                </div>
+
+                <div class="group">
+                    <h3 class="group-hdr">More</h3>
+                    <ul>
+                        <li><a href="/about-npr/198341814/npr-blog-directory" data-metrics-action="click our blogs">Our Blogs</a></li>
+                        <li><a href="/templates/corrections/corrections.php" data-metrics-action="click corrections">Corrections</a></li>
+                        <li><a href="/about/aboutnpr/" data-metrics-action="click all about npr">All About NPR</a></li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="subnav subnav-programs-podcasts ecosystem-news" data-metrics-category="global navigation">
+                <a class="back back-to-top-level"><b class="icn-back"></b>Back</a>
+
+                <div class="group">
+                    <h3 class="group-hdr">News &amp; Conversations</h3>
+                    <ul>
+                        <li><a href="/programs/morning-edition/" data-metrics-action="click morning edition">Morning Edition</a></li>
+                        <li><a href="/programs/all-things-considered/" data-metrics-action="click all things considered">All Things Considered</a></li>
+                        <li><a href="/programs/fresh-air/" data-metrics-action="click fresh air">Fresh Air</a></li>
+                        <li><a href="http://www.wbur.org/hereandnow" target="_blank" data-metrics-action="click here & now">Here &amp; Now</a></li>
+                        <li><a class="subnav__1a" href="http://the1a.org/" data-metrics-action="click 1a">1A</a></li>
+                        <li><a href="/podcasts/510312/codeswitch" data-metrics-action="click code switch">Code Switch</a></li>
+                        <li><a href="/podcasts/510311/embedded" data-metrics-action="click embedded">Embedded</a></li>
+                        <li><a href="/podcasts/510317/its-been-a-minute-with-sam-sanders" data-metrics-action="click it's been a minute with sam sanders">It's Been a Minute with Sam Sanders</a></li>
+                        <li><a href="/programs/latino-usa/" data-metrics-action="click latino usa">Latino USA</a></li>
+                        <li><a href="/podcasts/510310/npr-politics-podcast">NPR Politics Podcast</a></li>
+                        <li><a href="http://onpoint.wbur.org/" target="_blank" data-metrics-action="click on point">On Point</a></li>
+                        <li><a href="/podcasts/510324/rough-translation" data-metrics-action="click rough translation">Rough Translation</a></li>
+                        <li><a href="/podcasts/510318/up-first" data-metrics-action="click up first">Up First</a></li>
+                        <li><a href="/programs/weekend-edition-saturday/" data-metrics-action="click weekend edition saturday">Weekend Edition Saturday</a></li>
+                        <li><a href="/programs/weekend-edition-sunday/" data-metrics-action="click weekend edition sunday">Weekend Edition Sunday</a></li>
+                        <li><a href="/podcasts/510323/whats-good-with-stretch-and-bobbito" data-metrics-action="click what's good with stretch & bobbito">What's Good with Stretch &amp; Bobbito</a></li>
+                        <li><a href="/series/4692815/youth-radio" data-metrics-action="click youth radio">Youth Radio</a></li>
+                    </ul>
+                </div>
+
+                <div class="group">
+                    <h3 class="group-hdr">Storytelling &amp; Humor</h3>
+                    <ul>
+                        <li><a href="/programs/ask-me-another/" data-metrics-action="click ask me another">Ask Me Another</a></li>
+                        <li><a href="http://www.cartalk.com" target="_blank" data-metrics-action="click the best of car talk">The Best Of Car Talk</a></li>
+                        <li><a href="http://biglisten.org/" target="_blank" data-metrics-action="click the big listen">The Big Listen</a></li>
+                        <li><a href="http://www.maximumfun.org/shows/bullseye" target="_blank" data-metrics-action="click bullseye">Bullseye</a></li>
+                        <li><a href="/series/423302056/hidden-brain" data-metrics-action="click hidden brain">Hidden Brain</a></li>
+                        <li><a href="/podcasts/510313/how-i-built-this">How I Built This</a></li>
+                        <li><a href="/programs/invisibilia/" data-metrics-action="click invisibilia">Invisibilia</a></li>
+                        <li><a href="/podcasts/510322/live-from-the-poundstone-institute" data-metrics-action="click live from the poundstone institute">Live from the Poundstone Institute</a></li>
+                        <li><a href="http://onlyagame.wbur.org/" data-metrics-action="click only a game">Only A Game</a></li>
+                        <li><a href="/sections/money/" data-metrics-action="click planet money">Planet Money</a></li>
+                        <li><a href="/podcasts/510282/pop-culture-happy-hour" data-metrics-action="click pop culture happy hour">Pop Culture Happy Hour</a></li>
+                        <li><a href="/podcasts/510315/radio-ambulante" data-metrics-action="click radio ambulante">Radio Ambulante</a></li>
+                        <li><a href="http://storycorps.org" class="storycorps" target="_blank" data-metrics-action="click storycorps">StoryCorps</a></li>
+                        <li><a href="/programs/ted-radio-hour/" data-metrics-action="click ted radio hour">TED Radio Hour</a></li>
+                        <li><a href="/programs/wait-wait-dont-tell-me/" data-metrics-action="click wait wait don't tell me">Wait Wait...Don't Tell Me!</a></li>
+                        <li><a href="/podcasts/510321/wow-in-the-world/" data-metrics-action="click wow in the world">Wow in the World</a></li>
+                    </ul>
+                </div>
+
+                <div class="group">
+                    <h3 class="group-hdr">Music</h3>
+                    <ul>
+                        <li><a href="/series/98679384/first-listen/" data-metrics-action="click first listen">First Listen</a></li>
+                        <li><a href="/sections/allsongs/" data-metrics-action="click all songs considered">All Songs Considered</a></li>
+                        <li><a href="/series/122356178/songs-we-love/" data-metrics-action="click songs we love">Songs We Love</a></li>
+                        <li><a href="/series/tiny-desk-concerts/" data-metrics-action="click tiny desk">Tiny Desk</a></li>
+                        <li><a href="/series/alt-latino/" data-metrics-action="click alt.latino">Alt.Latino</a></li>
+                        <li><a href="/podcasts/510026/from-the-top" target="_blank" data-metrics-action="click from the top">From The Top</a></li>
+                        <li><a href="/series/347139849/jazz-night-in-america" data-metrics-action="click jazz night in america">Jazz Night In America</a></li>
+                        <li><a href="/sections/metropolis/" data-metrics-action="click metropolis">Metropolis</a></li>
+                        <li><a href="/series/mountain-stage/" data-metrics-action="click mountain stage">Mountain Stage</a></li>
+                        <li><a href="/programs/piano-jazz/" data-metrics-action="click piano jazz">Piano Jazz</a></li>
+                        <li><a href="/series/103063413/the-thistle-and-shamrock/" data-metrics-action="click the thistle & shamrock">The Thistle &amp; Shamrock</a></li>
+                        <li><a href="/programs/world-cafe/" data-metrics-action="click world cafe">World Cafe</a></li>
+                    </ul>
+                </div>
+
+                <div class="group">
+                    <h3 class="group-hdr">More</h3>
+                    <ul>
+                        <li><a href="/programs/" data-metrics-action="click all programs">All Programs</a></li>
+                        <li><a href="/podcasts/" data-metrics-action="click podcast directory">Podcast Directory</a></li>
+                        <!-- local organization podcast inserted here via JavaScript -->
+                        <li><a href="/podcasts/organizations/1" data-metrics-action="click npr podcasts">NPR Podcasts</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.subnav-programs-podcasts -->
+            <!-- /News ecosystem -->
+
+            <!-- Music ecosystem -->
+            <div class="subnav subnav-genres ecosystem-music" data-metrics-category="music ecosystem navigation">
+                <a class="back back-to-top-level"><b class="icn-back"></b>Back</a>
+
+                <ul>
+                    <li><a href="/music/genres/rock/" data-metrics-action="click rock">Rock</a></li>
+                    <li><a href="/music/genres/pop/" data-metrics-action="click pop">Pop</a></li>
+                    <li><a href="/music/genres/jazz/" data-metrics-action="click jazz">Jazz</a></li>
+                    <li><a href="/music/genres/classical/" data-metrics-action="click classical">Classical</a></li>
+                    <li><a href="/music/genres/hip-hop/" data-metrics-action="click hip-hop">Hip-Hop</a></li>
+                    <li><a href="/music/genres/r-b-soul/" data-metrics-action="click r&b/soul">R&amp;B/Soul</a></li>
+                    <li><a href="/music/genres/folk/" data-metrics-action="click folk">Folk</a></li>
+                    <li><a href="/music/genres/latin/" data-metrics-action="click latin">Latin</a></li>
+                    <li><a href="/music/genres/world/" data-metrics-action="click world">World</a></li>
+                    <li><a href="/music/genres/electronic-dance/" data-metrics-action="click electronic/dance">Electronic/Dance</a></li>
+                </ul>
+            </div>
+
+            <div class="subnav subnav-new-music ecosystem-music" data-metrics-category="music ecosystem navigation">
+                <a class="back back-to-top-level"><b class="icn-back"></b>Back</a>
+
+                <ul>
+                    <li><a href="/series/98679384/first-listen" data-metrics-action="click first listen">First Listen</a></li>
+                    <li><a href="/series/122356178/songs-we-love/" data-metrics-action="click songs we love">Songs We Love</a></li>
+                    <li><a href="/sections/allsongs/" data-metrics-action="click all songs considered">All Songs Considered</a></li>
+                    <li><a href="/sections/music-reviews/" data-metrics-action="click reviews">Reviews</a></li>
+                    <li><a href="/series/146587997/all-songs-tv/" data-metrics-action="click music videos">Music Videos</a></li>
+                </ul>
+            </div>
+
+            <div class="subnav subnav-concerts-videos ecosystem-music" data-metrics-category="music ecosystem navigation">
+                <a class="back back-to-top-level"><b class="icn-back"></b>Back</a>
+
+                <ul>
+                    <li><a href="/series/tiny-desk-concerts/" data-metrics-action="click tiny desk">Tiny Desk</a></li>
+                    <li><a href="/series/live-in-concert/" data-metrics-action="click live concerts">Live Concerts</a></li>
+                    <li><a href="/series/144918893/field-recordings/" data-metrics-action="click field recordings">Field Recordings</a></li>
+                    <li><a href="/series/15667984/favorite-sessions/" data-metrics-action="click studio sessions">Studio Sessions</a></li>
+                    <li><a href="/series/149937282/music-documentaries/" data-metrics-action="click music documentaries">Music Documentaries</a></li>
+                    <li><a href="/sections/music-videos/" data-metrics-action="click music videos">Music Videos</a></li>
+                    <li><a href="/series/356126782/festival-recordings/" data-metrics-action="click festival recordings">Festival Recordings</a></li>
+                </ul>
+            </div>
+
+            <div class="subnav subnav-articles-lists ecosystem-music" data-metrics-category="music ecosystem navigation">
+                <a class="back back-to-top-level"><b class="icn-back"></b>Back</a>
+
+                <ul>
+                    <li><a href="/series/100920965/music-articles/" data-metrics-action="click articles">Articles</a></li>
+                    <li><a href="/sections/music-interviews/" data-metrics-action="click interviews">Interviews</a></li>
+                    <li><a href="/sections/music-quizzes/" data-metrics-action="click quizzes">Quizzes</a></li>
+                    <li><a href="/sections/music-lists/" data-metrics-action="click mnusic lists">Music Lists</a></li>
+                    <li><a href="/series/482024024/best-music-of-2016" data-metrics-action="click best music of the year">Best Music of the Year</a></li>
+                </ul>
+            </div>
+            <!-- /Music ecosystem -->
+
+            <!-- Books ecosystem -->
+            <div class="subnav subnav-find-books ecosystem-books" data-metrics-category="books ecosystem navigation">
+                <a class="back back-to-top-level"><b class="icn-back"></b>Back</a>
+
+                <div class="group">
+                    <ul>
+                        <li><a href="/books/genres/10110/art-design/" data-metrics-action="click art & design">Art &amp; Design</a></li>
+                        <li><a href="/books/genres/10126/arts-entertainment/" data-metrics-action="click arts & entertainment">Arts &amp; Entertainment</a></li>
+                        <li><a href="/books/genres/10101/biography-memoir/" data-metrics-action="click biography & memoir">Biography &amp; Memoir</a></li>
+                        <li><a href="/books/genres/10102/business-economy/" data-metrics-action="click business & economy">Business &amp; Economy</a></li>
+                        <li><a href="/books/genres/10122/children/" data-metrics-action="click children's books">Children's Books</a></li>
+                        <li><a href="/books/genres/10123/comedy/" data-metrics-action="click comedy">Comedy</a></li>
+                        <li><a href="/books/genres/10104/comics-graphic-novels/" data-metrics-action="click comics & graphic novels">Comics &amp; Graphic Novels</a></li>
+                        <li><a href="/books/genres/10127/digital-culture/" data-metrics-action="click digital culture">Digital Culture</a></li>
+                    </ul>
+                </div>
+
+                <div class="group">
+                    <ul>
+                        <li><a href="/books/genres/10103/faith-spirituality/" data-metrics-action="click faith & spirituality">Faith &amp; Spirituality</a></li>
+                        <li><a href="/books/genres/10106/food-wine/" data-metrics-action="click food & wine">Food &amp; Wine</a></li>
+                        <li><a href="/books/genres/10109/history-society/" data-metrics-action="click history & society">History &amp; Society</a></li>
+                        <li><a href="/books/genres/10113/historical-fiction/" data-metrics-action="click historical fiction">Historical Fiction</a></li>
+                        <li><a href="/books/genres/191663270/horror-supernatural/" data-metrics-action="click horror & supernatural">Horror &amp; Supernatural</a></li>
+                        <li><a href="/books/genres/10112/literary-fiction/" data-metrics-action="click literary fiction">Literary Fiction</a></li>
+                        <li><a href="/books/genres/10114/mystery-thrillers/" data-metrics-action="click mystery & thrillers">Mystery &amp; Thrillers</a></li>
+                        <li><a href="/books/genres/10116/parenting-families/" data-metrics-action="click parenting & families">Parenting &amp; Families</a></li>
+                    </ul>
+                </div>
+
+                <div class="group">
+                    <ul>
+                        <li><a href="/books/genres/10125/poetry/" data-metrics-action="click poetry">Poetry</a></li>
+                        <li><a href="/books/genres/10117/politics-public-affairs/" data-metrics-action="click politics & public affairs">Politics &amp; Public Affairs</a></li>
+                        <li><a href="/books/genres/10118/romance/" data-metrics-action="click romance">Romance</a></li>
+                        <li><a href="/books/genres/10119/science-fiction-fantasy/" data-metrics-action="click science fiction & fantasy">Science Fiction &amp; Fantasy</a></li>
+                        <li><a href="/books/genres/10108/science-health/" data-metrics-action="click science & health">Science &amp; Health</a></li>
+                        <li><a href="/books/genres/10120/sports/" data-metrics-action="click sports">Sports</a></li>
+                        <li><a href="/books/genres/10124/travel/" data-metrics-action="click travel">Travel</a></li>
+                        <li><a href="/books/genres/10121/young-adults/" data-metrics-action="click young adult">Young Adult</a></li>
+                    </ul>
+                </div>
+
+                <div class="group">
+                    <ul>
+                        <li class="genre"><a href="/books/genres/10115/nonfiction/" data-metrics-action="click nonfiction">Nonfiction</a></li>
+                        <li class="genre"><a href="/books/genres/10111/fiction/" data-metrics-action="click fiction">Fiction</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subnav subnav-reviews ecosystem-books" data-metrics-category="books ecosystem navigation">
+                <a class="back back-to-top-level"><b class="icn-back"></b>Back</a>
+
+                <ul>
+                    <li><a href="/sections/book-reviews" data-metrics-action="click book reviews">Book Reviews</a></li>
+                    <li><a href="/series/257657827/this-weeks-must-read" data-metrics-action="click this week's must read">This Week's Must Read</a></li>
+                    <li><a href="/series/104566969/my-guilty-pleasure" data-metrics-action="click my guilty pleasure">My Guilty Pleasure</a></li>
+                    <li><a href="/series/three-books/" data-metrics-action="click three books...">Three Books...</a></li>
+                    <li><a href="/series/153588024/pg-13-go-to-teen-reads" data-metrics-action="click pg-13: risky reads">PG-13: Risky Reads</a></li>
+                    <li><a href="/series/you-must-read-this/" data-metrics-action="click you must read this">You Must Read This</a></li>
+                    <li><a href="/summerbooks/" data-metrics-action="click summer books">Summer Books</a></li>
+                    <li><a href="/bestbooks/" data-metrics-action="click best books of the year">Best Books of the Year</a></li>
+                </ul>
+            </div>
+            <!-- /Books ecosystem -->
+
+            <!-- About ecosystem -->
+            <div class="subnav subnav-overview ecosystem-about" data-metrics-category="about ecosystem navigation">
+                <a class="back back-to-top-level"><b class="icn-back"></b>Back</a>
+
+                <ul>
+                    <li><a href="/about/aboutnpr/" data-metrics-action="click overview">Overview</a></li>
+                    <li><a href="/about-npr/192827079/overview-and-history" data-metrics-action="click overview and history">Overview and History</a></li>
+                    <li><a href="/about-npr/178659563/our-mission-and-vision" data-metrics-action="click mission and vision">Mission and Vision</a></li>
+                    <li><a href="/about-npr/178640915/npr-stations-and-public-media" data-metrics-action="click stations and public media">Stations and Public Media</a></li>
+                    <li><a href="/about-npr/178660742/public-radio-finances" data-metrics-action="click npr finances">NPR Finances</a></li>
+                    <li><a href="/about-npr/179803822/people-at-npr" data-metrics-action="click people">People</a></li>
+                    <li><a href="http://ethics.npr.org/" data-metrics-action="click ethics">Ethics</a></li>
+                    <li><a href="about-npr/183726490/awards" data-metrics-action="click awards">Awards</a></li>
+                </ul>
+            </div>
+
+            <div class="subnav subnav-connect ecosystem-about" data-metrics-category="about ecosystem navigation">
+                <a class="back back-to-top-level"><b class="icn-back"></b>Back</a>
+
+                <ul>
+                    <li><a href="/about-npr/177066727/visit-npr" data-metrics-action="click visit npr">Visit NPR</a></li>
+                    <li><a href="http://www.nprpresents.org/" data-metrics-action="click npr presents">NPR Presents</a></li>
+                    <li><a href="http://studio1.npr.org" data-metrics-action="click studio 1 events">Studio 1 Events</a></li>
+                    <li><a href="http://generationlisten.npr.org/" data-metrics-action="click generation listen">Generation Listen</a></li>
+                    <li><a href="/about-npr/182673872/book-an-npr-speaker" data-metrics-action="click book a speaker">Book a Speaker</a></li>
+                    <li><a href="/about-npr/179881519/rights-and-permissions-information" data-metrics-action="click request permissions">Request Permissions</a></li>
+                    <li><a href="/about-npr/187046089/ways-to-listen-to-npr" data-metrics-action="click ways to listen">Ways to Listen</a></li>
+                    <li><a href="/sections/npr-extra/" data-metrics-action="click npr extra blog">NPR Extra Blog</a></li>
+                    <li><a href="/newsletters/" data-metrics-action="click sign up: newsletters">Email Newsletters</a></li>
+                    <li><a href="https://shop.npr.org/" data-metrics-action="click shop npr">Shop NPR</a></li>
+                    <li><a href="https://help.npr.org" data-metrics-action="click get help">Get Help</a></li>
+                    <li><a href="/contact/" data-metrics-action="click contact us">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="subnav subnav-support ecosystem-about" data-metrics-category="about ecosystem navigation">
+                <a class="back back-to-top-level"><b class="icn-back"></b>Back</a>
+
+                <ul>
+                    <li><a href="/series/750002/support-public-radio" data-metrics-action="click support public radio">Support Public Radio</a></li>
+                    <li><a href="/about-npr/186948703/corporate-sponsorship" data-metrics-action="click corporate sponsorship">Corporate Sponsorship</a>
+                    <li><a href="/about-npr/181961258/volunteer-at-npr" data-metrics-action="click volunteer">Volunteer</a></li>
+                </ul>
+            </div>
+
+            <div class="subnav subnav-press ecosystem-about" data-metrics-category="about ecosystem navigation">
+                <a class="back back-to-top-level"><b class="icn-back"></b>Back</a>
+
+                <ul>
+                    <li><a href="/series/750003/press-room/" data-metrics-action="click releases and statements">Releases and Statements</a></li>
+                    <li><a href="/about-npr/182675632/photos-and-logos" data-metrics-action="click photos and logos">Photos and Logos</a></li>
+                    <li><a href="/about/press/NPR_Fact_Sheet.pdf" data-metrics-action="click fact sheet pdf">Fact Sheet (PDF)</a></li>
+                    <li><a href="/about-npr/185546105/media-relations-contacts" data-metrics-action="click media relations contacts">Media Relations Contacts</a></li>
+                </ul>
+            </div>
+
+            <div class="subnav subnav-careers ecosystem-about" data-metrics-category="about ecosystem navigation">
+                <a class="back back-to-top-level"><b class="icn-back"></b>Back</a>
+
+                <ul>
+                    <li><a href="/series/750004/careers">Careers at NPR</a></li>
+                    <li><a href="https://recruiting.ultipro.com/NAT1011NATPR/JobBoard/af823b19-a43b-4cda-b6c2-c06508d84cf6" data-metrics-action="click search jobs">Search Jobs</a></li>
+                    <li><a href="/about-npr/179008081/tapping-into-the-npr-culture/" data-metrics-action="click culture">Culture</a></li>
+                    <li><a href="/about-npr/181909622/applying-at-npr/" data-metrics-action="click applying">Applying</a></li>
+                    <li><a href="/about-npr/181881227/internships-at-npr/" data-metrics-action="click interns">Interns</a></li>
+                    <li><a href="/about-npr/181880514/fellowships-at-npr/" data-metrics-action="click fellows">Fellows</a></li>
+                    <li><a href="/about-npr/185550054/digital-careers-at-npr/" data-metrics-action="click digital">Digital</a></li>
+                </ul>
+            </div>
+            <!-- /About ecosystem -->
+
+            <!-- Podcast ecosystem -->
+            <div class="subnav subnav-podcast-categories ecosystem-podcast" data-metrics-category="podcast ecosystem navigation">
+                <a class="back back-to-top-level"><b class="icn-back"></b>Back</a>
+
+                <div class="group">
+                    <ul>
+                        <li><a href="/podcasts/2000/arts" data-metrics-action="click arts">Arts</a></li>
+                        <li><a href="/podcasts/2007/business" data-metrics-action="click business">Business</a></li>
+                        <li><a href="/podcasts/2013/comedy" data-metrics-action="click comedy">Comedy</a></li>
+                        <li><a href="/podcasts/2014/education" data-metrics-action="click education">Education</a></li>
+                        <li><a href="/podcasts/2020/games-hobbies" data-metrics-action="click games & hobbies">Games &amp; Hobbies</a></li>
+                        <li><a href="/podcasts/2026/government-organizations" data-metrics-action="click government & organizations">Government &amp; Organizations</a></li>
+                        <li><a href="/podcasts/2031/health" data-metrics-action="click health">Health</a></li>
+                        <li><a href="/podcasts/2036/kids-family" data-metrics-action="click kids & family">Kids &amp; Family</a></li>
+                    </ul>
+                </div>
+
+                <div class="group">
+                    <ul>
+                        <li><a href="/podcasts/2037/music" data-metrics-action="click music">Music</a>
+                        </li>
+                        <li><a href="/podcasts/2038/news-politics" data-metrics-action="click news & politics">News &amp; Politics</a></li>
+                        <li><a href="/podcasts/2039/religion-spirituality" data-metrics-action="click religion & spirituality">Religion &amp; Spirituality</a></li>
+                        <li><a href="/podcasts/2047/science-medicine" data-metrics-action="click science & medicine">Science &amp; Medicine</a></li>
+                        <li><a href="/podcasts/2051/society-culture" data-metrics-action="click society & culture">Society &amp; Culture</a></li>
+                        <li><a href="/podcasts/2056/sports-recreation" data-metrics-action="click sports & recreation">Sports &amp; Recreation</a></li>
+                        <li><a href="/podcasts/2061/technology" data-metrics-action="click technology">Technology</a></li>
+                        <li><a href="/podcasts/2066/tv-film" data-metrics-action="click tv & film">TV &amp; Film</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.subnav-podcast-categories -->
+            <!-- /Podcast ecosystem -->
+
+            <!-- Common ecosystem -->
+
+            <!-- /.subnav-user-account -->
+            <!-- /Common ecosystem -->
+
+        </nav>
+        <!-- ./global-navigation -->
+    </div>
+    <!-- ./global-navigation-wrap -->
+
+    <!--
+        .global-navigation-two
+    -->
+    <nav class="global-navigation-two" aria-label="station navigation" data-metrics-category="global navigation">
+        <ul class="top-level">
+            <li id="station-navigation-med-mount"></li>
+            <li id="station-donate-med-mount"></li>
+        </ul>
+    </nav>
+
+    <!--
+        .global-navigation-three
+        Gets created here via JavaScript on certain landing page layouts
+    -->
+</div>
+<!-- .globalheader-inner --></header><main aria-label="main content"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K9RKM5" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div class="speakable">
+      <b data-is-speakable>Podcast : Planet Money</b>   <b data-is-speakable>Planet Money produces two podcasts each week. Find them here or subscribe on iTunes.</b>
+</div>
+<div id="wrapper">
+      <div id="main-section">
+            <header class="contentheader contentheader--one" data-metrics-category="Podcast"><div class="branding branding--custom">
+      <a href="http://www.npr.org/sections/money/" data-metrics='{"action":"click branding"}' ><img src="https://media.npr.org/branding/sections/money/branding_icon-61dc9689588f3c46862843030c463f76a8f7514c.png" class="branding__image-icon" alt="Planet Money" /><div class="branding__inner">
+      <h2 class="branding__title branding__title--custom-text">Planet <b>Money</b></h2>
+   <b class="branding__mini-teaser">The Economy Explained</b>
+</div>
+
+<!-- END CLASS="BRANDING__INNER" -->
+</a>
+</div>
+
+<!-- END CLASS="BRANDING BRANDING--CUSTOM" -->
+</header>      <div class="subnav-tools-wrap">
+                  <div id="subNavigation" class="agglocation linkLocation" role="navigation" aria-label="sub-navigation">
+                        <div id="res341873294" class="bucketwrap statichtml">
+                              <div class="subtopics">
+  <ul class="animated fadeInRight">
+    <li><a href="/podcasts/510289/planet-money/">Subscribe to Podcast</a></li>
+    <li><a href="/sections/money/2011/04/27/135599807/about-planet-money">About</a></li>
+    <li><a href="/sections/money/135511603/radio">Radio</a></li>
+    <li><a href="/sections/money/135573355/this-american-life">This American Life</a></li>
+  </ul>
+</div>
+
+<div class="roller-overlay"></div>
+
+<ul class="subscribe">
+  <li class="twitter"><a href="https://twitter.com/planetmoney" data-metrics='{"action":"Click Twitter"}'>Twitter</a></li>
+  <li class="facebook"><a href="https://www.facebook.com/planetmoney" data-metrics='{"action":"Click Facebook"}'>Facebook</a></li>
+</ul>
+            </div>
+            
+<!-- END ID="RES341873294" CLASS="BUCKETWRAP STATICHTML" -->
+         </div>
+         <h1 class="cattitle">Podcast</h1>
+      </div>
+      <div id='archive-core'>
+                  <div class='archivelist'>
+                        <article class="item no-image">
+
+    <div class="item-info">
+            <div class="slug-wrap">
+                    <h3 class="slug"><a href="http://www.npr.org/sections/money/127413729/podcast/">Podcast</a></h3>
+            </div>
+
+        <h2 class="title"><a href="http://www.npr.org/sections/money/2008/09/listen_up_your_questions_answe.html"  data-metrics='{"action":"Click Story Title","category":"Story List"}' >Listen Up: Your Questions Answered Here</a></h2>
+        
+        
+        <p class="teaser"><a href="http://www.npr.org/sections/money/2008/09/listen_up_your_questions_answe.html"><time datetime="2008-09-15"><span class="date">September 15, 2008 &#149; </span></time>Click for answers.</a></p>
+
+        
+    </div>
+
+    <article id="res136445608" class="bucketwrap resaudio" aria-label="audio-module"><div class="audio-module">
+      <h2 class="audio-module-title">Listen Up: Your Questions Answered Here</h2>
+   <div class="audio-module-controls-wrap" data-audio='{"uid":"94643571:136445608","available":true,"duration":1281,"title":"Listen Up: Your Questions Answered Here","audioUrl":"https:\/\/ondemand.npr.org\/anon.npr-mp3\/npr\/blog\/2008\/09\/20080915_blog_adam915.mp3?orgId=1&d=1281&story=94643571&siteplayer=true","storyUrl":"http:\/\/www.npr.org\/sections\/money\/2008\/09\/listen_up_your_questions_answe.html","slug":"planet money","program":"","affiliation":"","song":"","artist":"","album":"","track":0,"type":"segment","subtype":"other"}' data-audio-metrics='[]'>
+        <div class="audio-module-controls">
+            <a class="audio-module-listen" href="https://ondemand.npr.org/anon.npr-mp3/npr/blog/2008/09/20080915_blog_adam915.mp3?orgId=1&amp;d=1281&amp;story=94643571&amp;siteplayer=true&amp;dl=1">
+                <b class="audio-module-listen-inner">
+                    <b class="audio-module-listen-icon icn-play"></b>
+                    <b class="audio-module-listen-text">
+                        <b class="audio-module-cta">Listen</b>
+                        <b class="audio-module-listen-duration">
+                            <span>&middot; </span>
+                            <span>21:21</span>
+                        </b>
+                    </b>
+                </b>
+            </a>
+
+            <time class="audio-module-duration" datetime="P21M,21S">21:21</time>
+        </div>
+
+
+</div>
+
+   
+    <div class="audio-module-tools">
+        <button class="audio-module-tools-toggle"  data-metrics='{&quot;category&quot;:&quot;audio actions&quot;,&quot;action&quot;:&quot;open more options&quot;,&quot;label&quot;:null,&quot;noninteraction&quot;:true}' >
+            <b class="icn-toggle"></b>
+            <b class="label">Toggle more options</b>
+        </button>
+        <ul class="audio-module-more-tools">
+                <li class="audio-tool audio-tool-download"><a href="https://ondemand.npr.org/anon.npr-mp3/npr/blog/2008/09/20080915_blog_adam915.mp3?orgId=1&amp;d=1281&amp;story=94643571&amp;siteplayer=true&amp;dl=1"  data-metrics='{&quot;category&quot;:&quot;audio actions&quot;,&quot;action&quot;:&quot;download audio&quot;,&quot;label&quot;:&quot;94643571&quot;,&quot;noninteraction&quot;:true}'  ><b class="icn-download"></b><b class="audio-tool-label">Download</b></a>
+                </li>
+
+                <li class="audio-tool audio-tool-embed" >
+                    <button data-embed-url="www.npr.org/player/embed/94643571/136445608"  data-metrics='{&quot;category&quot;:&quot;audio actions&quot;,&quot;action&quot;:&quot;embed audio&quot;,&quot;label&quot;:&quot;94643571&quot;,&quot;noninteraction&quot;:true}' ><b class="button-inner"><b class="icn-embed"></b><b
+                            class="audio-tool-label">Embed</b></b></button>
+
+                    <div class="audio-embed-overlay">
+                        <button class="btn-close"></button>
+                        <label class="embed-label">
+                            <b class="icn-embed"></b>
+                            <b class="label">Embed</b>
+                            <input class="embed-url embed-url-no-touch" readonly
+                                   value="<iframe src=&quot;https://www.npr.org/player/embed/94643571/136445608&quot; width=&quot;100%&quot; height=&quot;290&quot; frameborder=&quot;0&quot; scrolling=&quot;no&quot; title=&quot;NPR embedded audio player&quot;></iframe>">
+                        </label>
+
+                        <b class="embed-url embed-url-touch">
+                            <code><b class="punctuation">&lt;</b>iframe src="https://www.npr.org/player/embed/94643571/136445608" width="100%" height="290" frameborder="0" scrolling="no" title="NPR embedded audio player"&gt;</code>
+                        </b>
+
+                    </div>
+                </li>
+
+        </ul>
+    </div>
+</div>
+</article>
+
+</article>
+            <article class="item no-image">
+
+    <div class="item-info">
+            <div class="slug-wrap">
+                    <h3 class="slug"><a href="http://www.npr.org/sections/money/127413729/podcast/">Podcast</a></h3>
+            </div>
+
+        <h2 class="title"><a href="http://www.npr.org/sections/money/2008/09/great_big_report_puts_us_on_to.html"  data-metrics='{"action":"Click Story Title","category":"Story List"}' >Great Big Report Puts U.S. On Top</a></h2>
+        
+        
+        <p class="teaser"><a href="http://www.npr.org/sections/money/2008/09/great_big_report_puts_us_on_to.html"><time datetime="2008-09-11"><span class="date">September 11, 2008 &#149; </span></time>Nouriel Roubini walks us through the World Economic Forum's first ever Financial Development Index.</a></p>
+
+        
+    </div>
+
+    <article id="res136445563" class="bucketwrap resaudio" aria-label="audio-module"><div class="audio-module">
+      <h2 class="audio-module-title">Great Big Report Puts U.S. On Top</h2>
+   <div class="audio-module-controls-wrap" data-audio='{"uid":"94521391:136445563","available":true,"duration":455,"title":"Great Big Report Puts U.S. On Top","audioUrl":"https:\/\/ondemand.npr.org\/anon.npr-mp3\/npr\/blog\/2008\/09\/20080911_blog_roubini.mp3?orgId=1&d=455&story=94521391&siteplayer=true","storyUrl":"http:\/\/www.npr.org\/sections\/money\/2008\/09\/great_big_report_puts_us_on_to.html","slug":"planet money","program":"","affiliation":"","song":"","artist":"","album":"","track":0,"type":"segment","subtype":"other"}' data-audio-metrics='[]'>
+        <div class="audio-module-controls">
+            <a class="audio-module-listen" href="https://ondemand.npr.org/anon.npr-mp3/npr/blog/2008/09/20080911_blog_roubini.mp3?orgId=1&amp;d=455&amp;story=94521391&amp;siteplayer=true&amp;dl=1">
+                <b class="audio-module-listen-inner">
+                    <b class="audio-module-listen-icon icn-play"></b>
+                    <b class="audio-module-listen-text">
+                        <b class="audio-module-cta">Listen</b>
+                        <b class="audio-module-listen-duration">
+                            <span>&middot; </span>
+                            <span>7:35</span>
+                        </b>
+                    </b>
+                </b>
+            </a>
+
+            <time class="audio-module-duration" datetime="P7M,35S">7:35</time>
+        </div>
+
+
+</div>
+
+   
+    <div class="audio-module-tools">
+        <button class="audio-module-tools-toggle"  data-metrics='{&quot;category&quot;:&quot;audio actions&quot;,&quot;action&quot;:&quot;open more options&quot;,&quot;label&quot;:null,&quot;noninteraction&quot;:true}' >
+            <b class="icn-toggle"></b>
+            <b class="label">Toggle more options</b>
+        </button>
+        <ul class="audio-module-more-tools">
+                <li class="audio-tool audio-tool-download"><a href="https://ondemand.npr.org/anon.npr-mp3/npr/blog/2008/09/20080911_blog_roubini.mp3?orgId=1&amp;d=455&amp;story=94521391&amp;siteplayer=true&amp;dl=1"  data-metrics='{&quot;category&quot;:&quot;audio actions&quot;,&quot;action&quot;:&quot;download audio&quot;,&quot;label&quot;:&quot;94521391&quot;,&quot;noninteraction&quot;:true}'  ><b class="icn-download"></b><b class="audio-tool-label">Download</b></a>
+                </li>
+
+                <li class="audio-tool audio-tool-embed" >
+                    <button data-embed-url="www.npr.org/player/embed/94521391/136445563"  data-metrics='{&quot;category&quot;:&quot;audio actions&quot;,&quot;action&quot;:&quot;embed audio&quot;,&quot;label&quot;:&quot;94521391&quot;,&quot;noninteraction&quot;:true}' ><b class="button-inner"><b class="icn-embed"></b><b
+                            class="audio-tool-label">Embed</b></b></button>
+
+                    <div class="audio-embed-overlay">
+                        <button class="btn-close"></button>
+                        <label class="embed-label">
+                            <b class="icn-embed"></b>
+                            <b class="label">Embed</b>
+                            <input class="embed-url embed-url-no-touch" readonly
+                                   value="<iframe src=&quot;https://www.npr.org/player/embed/94521391/136445563&quot; width=&quot;100%&quot; height=&quot;290&quot; frameborder=&quot;0&quot; scrolling=&quot;no&quot; title=&quot;NPR embedded audio player&quot;></iframe>">
+                        </label>
+
+                        <b class="embed-url embed-url-touch">
+                            <code><b class="punctuation">&lt;</b>iframe src="https://www.npr.org/player/embed/94521391/136445563" width="100%" height="290" frameborder="0" scrolling="no" title="NPR embedded audio player"&gt;</code>
+                        </b>
+
+                    </div>
+                </li>
+
+        </ul>
+    </div>
+</div>
+</article>
+
+</article>
+            <article class="item no-image">
+
+    <div class="item-info">
+            <div class="slug-wrap">
+                    <h3 class="slug"><a href="http://www.npr.org/sections/money/127413769/housing/">Housing</a></h3>
+            </div>
+
+        <h2 class="title"><a href="http://www.npr.org/sections/money/2008/09/the_economists_nightmare_no_ba.html"  data-metrics='{"action":"Click Story Title","category":"Story List"}' >The Economist's Nightmare: No Bailout</a></h2>
+        
+        
+        <p class="teaser"><a href="http://www.npr.org/sections/money/2008/09/the_economists_nightmare_no_ba.html"><time datetime="2008-09-09"><span class="date">September 9, 2008 &#149; </span></time>Scare yourself with this: Economists say a failed Fannie/Freddie it would have meant doomsday.</a></p>
+
+        
+    </div>
+
+    <article id="res136442428" class="bucketwrap resaudio" aria-label="audio-module"><div class="audio-module">
+      <h2 class="audio-module-title">The Economist's Nightmare: No Bailout</h2>
+   <div class="audio-module-controls-wrap" data-audio='{"uid":"94433490:136442428","available":true,"duration":914,"title":"The Economist\u0027s Nightmare: No Bailout","audioUrl":"https:\/\/ondemand.npr.org\/anon.npr-mp3\/npr\/blog\/2008\/09\/20080909_blog_ministers.mp3?orgId=1&d=914&story=94433490&siteplayer=true","storyUrl":"http:\/\/www.npr.org\/sections\/money\/2008\/09\/the_economists_nightmare_no_ba.html","slug":"planet money","program":"","affiliation":"","song":"","artist":"","album":"","track":0,"type":"segment","subtype":"other"}' data-audio-metrics='[]'>
+        <div class="audio-module-controls">
+            <a class="audio-module-listen" href="https://ondemand.npr.org/anon.npr-mp3/npr/blog/2008/09/20080909_blog_ministers.mp3?orgId=1&amp;d=914&amp;story=94433490&amp;siteplayer=true&amp;dl=1">
+                <b class="audio-module-listen-inner">
+                    <b class="audio-module-listen-icon icn-play"></b>
+                    <b class="audio-module-listen-text">
+                        <b class="audio-module-cta">Listen</b>
+                        <b class="audio-module-listen-duration">
+                            <span>&middot; </span>
+                            <span>15:14</span>
+                        </b>
+                    </b>
+                </b>
+            </a>
+
+            <time class="audio-module-duration" datetime="P15M,14S">15:14</time>
+        </div>
+
+
+</div>
+
+   
+    <div class="audio-module-tools">
+        <button class="audio-module-tools-toggle"  data-metrics='{&quot;category&quot;:&quot;audio actions&quot;,&quot;action&quot;:&quot;open more options&quot;,&quot;label&quot;:null,&quot;noninteraction&quot;:true}' >
+            <b class="icn-toggle"></b>
+            <b class="label">Toggle more options</b>
+        </button>
+        <ul class="audio-module-more-tools">
+                <li class="audio-tool audio-tool-download"><a href="https://ondemand.npr.org/anon.npr-mp3/npr/blog/2008/09/20080909_blog_ministers.mp3?orgId=1&amp;d=914&amp;story=94433490&amp;siteplayer=true&amp;dl=1"  data-metrics='{&quot;category&quot;:&quot;audio actions&quot;,&quot;action&quot;:&quot;download audio&quot;,&quot;label&quot;:&quot;94433490&quot;,&quot;noninteraction&quot;:true}'  ><b class="icn-download"></b><b class="audio-tool-label">Download</b></a>
+                </li>
+
+                <li class="audio-tool audio-tool-embed" >
+                    <button data-embed-url="www.npr.org/player/embed/94433490/136442428"  data-metrics='{&quot;category&quot;:&quot;audio actions&quot;,&quot;action&quot;:&quot;embed audio&quot;,&quot;label&quot;:&quot;94433490&quot;,&quot;noninteraction&quot;:true}' ><b class="button-inner"><b class="icn-embed"></b><b
+                            class="audio-tool-label">Embed</b></b></button>
+
+                    <div class="audio-embed-overlay">
+                        <button class="btn-close"></button>
+                        <label class="embed-label">
+                            <b class="icn-embed"></b>
+                            <b class="label">Embed</b>
+                            <input class="embed-url embed-url-no-touch" readonly
+                                   value="<iframe src=&quot;https://www.npr.org/player/embed/94433490/136442428&quot; width=&quot;100%&quot; height=&quot;290&quot; frameborder=&quot;0&quot; scrolling=&quot;no&quot; title=&quot;NPR embedded audio player&quot;></iframe>">
+                        </label>
+
+                        <b class="embed-url embed-url-touch">
+                            <code><b class="punctuation">&lt;</b>iframe src="https://www.npr.org/player/embed/94433490/136442428" width="100%" height="290" frameborder="0" scrolling="no" title="NPR embedded audio player"&gt;</code>
+                        </b>
+
+                    </div>
+                </li>
+
+        </ul>
+    </div>
+</div>
+</article>
+
+</article>
+         </div>
+         
+<!-- END CLASS='ARCHIVELIST' -->
+         <nav class="archive-nav">
+    <div class="year year-2017">
+        <button class="expand-year expand-year-2017" href="#">2017</button>
+        <ul class="months">
+            <li><a href="/sections/money/127413729/podcast/archive?date=8-31-2017"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=8-31-2017"}' >August 2017</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=7-31-2017"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=7-31-2017"}' >July 2017</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=6-30-2017"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=6-30-2017"}' >June 2017</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=5-31-2017"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=5-31-2017"}' >May 2017</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=4-30-2017"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=4-30-2017"}' >April 2017</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=3-31-2017"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=3-31-2017"}' >March 2017</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=2-28-2017"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=2-28-2017"}' >February 2017</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=1-31-2017"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=1-31-2017"}' >January 2017</a></li>
+        </ul>
+    </div>
+    <div class="year year-2016">
+        <button class="expand-year expand-year-2016" href="#">2016</button>
+        <ul class="months">
+            <li><a href="/sections/money/127413729/podcast/archive?date=12-31-2016"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=12-31-2016"}' >December 2016</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=11-30-2016"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=11-30-2016"}' >November 2016</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=10-31-2016"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=10-31-2016"}' >October 2016</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=9-30-2016"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=9-30-2016"}' >September 2016</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=8-31-2016"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=8-31-2016"}' >August 2016</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=7-31-2016"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=7-31-2016"}' >July 2016</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=6-30-2016"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=6-30-2016"}' >June 2016</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=5-31-2016"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=5-31-2016"}' >May 2016</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=4-30-2016"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=4-30-2016"}' >April 2016</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=3-31-2016"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=3-31-2016"}' >March 2016</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=2-29-2016"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=2-29-2016"}' >February 2016</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=1-31-2016"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=1-31-2016"}' >January 2016</a></li>
+        </ul>
+    </div>
+    <div class="year year-2015">
+        <button class="expand-year expand-year-2015" href="#">2015</button>
+        <ul class="months">
+            <li><a href="/sections/money/127413729/podcast/archive?date=12-31-2015"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=12-31-2015"}' >December 2015</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=11-30-2015"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=11-30-2015"}' >November 2015</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=10-31-2015"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=10-31-2015"}' >October 2015</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=9-30-2015"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=9-30-2015"}' >September 2015</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=8-31-2015"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=8-31-2015"}' >August 2015</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=7-31-2015"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=7-31-2015"}' >July 2015</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=6-30-2015"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=6-30-2015"}' >June 2015</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=5-31-2015"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=5-31-2015"}' >May 2015</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=4-30-2015"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=4-30-2015"}' >April 2015</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=3-31-2015"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=3-31-2015"}' >March 2015</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=2-28-2015"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=2-28-2015"}' >February 2015</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=1-31-2015"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=1-31-2015"}' >January 2015</a></li>
+        </ul>
+    </div>
+    <div class="year year-2014">
+        <button class="expand-year expand-year-2014" href="#">2014</button>
+        <ul class="months">
+            <li><a href="/sections/money/127413729/podcast/archive?date=12-31-2014"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=12-31-2014"}' >December 2014</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=11-30-2014"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=11-30-2014"}' >November 2014</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=10-31-2014"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=10-31-2014"}' >October 2014</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=9-30-2014"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=9-30-2014"}' >September 2014</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=8-31-2014"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=8-31-2014"}' >August 2014</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=7-31-2014"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=7-31-2014"}' >July 2014</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=6-30-2014"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=6-30-2014"}' >June 2014</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=5-31-2014"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=5-31-2014"}' >May 2014</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=4-30-2014"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=4-30-2014"}' >April 2014</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=3-31-2014"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=3-31-2014"}' >March 2014</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=2-28-2014"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=2-28-2014"}' >February 2014</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=1-31-2014"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=1-31-2014"}' >January 2014</a></li>
+        </ul>
+    </div>
+    <div class="year year-2013">
+        <button class="expand-year expand-year-2013" href="#">2013</button>
+        <ul class="months">
+            <li><a href="/sections/money/127413729/podcast/archive?date=12-31-2013"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=12-31-2013"}' >December 2013</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=11-30-2013"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=11-30-2013"}' >November 2013</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=10-31-2013"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=10-31-2013"}' >October 2013</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=9-30-2013"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=9-30-2013"}' >September 2013</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=8-31-2013"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=8-31-2013"}' >August 2013</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=7-31-2013"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=7-31-2013"}' >July 2013</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=6-30-2013"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=6-30-2013"}' >June 2013</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=5-31-2013"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=5-31-2013"}' >May 2013</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=4-30-2013"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=4-30-2013"}' >April 2013</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=3-31-2013"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=3-31-2013"}' >March 2013</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=2-28-2013"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=2-28-2013"}' >February 2013</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=1-31-2013"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=1-31-2013"}' >January 2013</a></li>
+        </ul>
+    </div>
+    <div class="year year-2012">
+        <button class="expand-year expand-year-2012" href="#">2012</button>
+        <ul class="months">
+            <li><a href="/sections/money/127413729/podcast/archive?date=12-31-2012"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=12-31-2012"}' >December 2012</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=11-30-2012"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=11-30-2012"}' >November 2012</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=10-31-2012"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=10-31-2012"}' >October 2012</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=9-30-2012"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=9-30-2012"}' >September 2012</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=8-31-2012"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=8-31-2012"}' >August 2012</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=7-31-2012"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=7-31-2012"}' >July 2012</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=6-30-2012"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=6-30-2012"}' >June 2012</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=5-31-2012"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=5-31-2012"}' >May 2012</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=4-30-2012"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=4-30-2012"}' >April 2012</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=3-31-2012"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=3-31-2012"}' >March 2012</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=2-29-2012"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=2-29-2012"}' >February 2012</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=1-31-2012"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=1-31-2012"}' >January 2012</a></li>
+        </ul>
+    </div>
+    <div class="year year-2011">
+        <button class="expand-year expand-year-2011" href="#">2011</button>
+        <ul class="months">
+            <li><a href="/sections/money/127413729/podcast/archive?date=12-31-2011"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=12-31-2011"}' >December 2011</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=11-30-2011"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=11-30-2011"}' >November 2011</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=10-31-2011"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=10-31-2011"}' >October 2011</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=9-30-2011"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=9-30-2011"}' >September 2011</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=8-31-2011"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=8-31-2011"}' >August 2011</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=7-31-2011"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=7-31-2011"}' >July 2011</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=6-30-2011"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=6-30-2011"}' >June 2011</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=5-31-2011"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=5-31-2011"}' >May 2011</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=4-30-2011"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=4-30-2011"}' >April 2011</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=3-31-2011"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=3-31-2011"}' >March 2011</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=2-28-2011"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=2-28-2011"}' >February 2011</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=1-31-2011"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=1-31-2011"}' >January 2011</a></li>
+        </ul>
+    </div>
+    <div class="year year-2010">
+        <button class="expand-year expand-year-2010" href="#">2010</button>
+        <ul class="months">
+            <li><a href="/sections/money/127413729/podcast/archive?date=12-31-2010"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=12-31-2010"}' >December 2010</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=11-30-2010"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=11-30-2010"}' >November 2010</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=10-31-2010"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=10-31-2010"}' >October 2010</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=9-30-2010"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=9-30-2010"}' >September 2010</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=8-31-2010"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=8-31-2010"}' >August 2010</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=7-31-2010"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=7-31-2010"}' >July 2010</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=6-30-2010"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=6-30-2010"}' >June 2010</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=5-31-2010"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=5-31-2010"}' >May 2010</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=4-30-2010"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=4-30-2010"}' >April 2010</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=3-31-2010"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=3-31-2010"}' >March 2010</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=2-28-2010"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=2-28-2010"}' >February 2010</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=1-31-2010"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=1-31-2010"}' >January 2010</a></li>
+        </ul>
+    </div>
+    <div class="year year-2009">
+        <button class="expand-year expand-year-2009" href="#">2009</button>
+        <ul class="months">
+            <li><a href="/sections/money/127413729/podcast/archive?date=12-31-2009"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=12-31-2009"}' >December 2009</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=11-30-2009"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=11-30-2009"}' >November 2009</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=10-31-2009"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=10-31-2009"}' >October 2009</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=9-30-2009"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=9-30-2009"}' >September 2009</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=8-31-2009"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=8-31-2009"}' >August 2009</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=7-31-2009"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=7-31-2009"}' >July 2009</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=6-30-2009"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=6-30-2009"}' >June 2009</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=5-31-2009"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=5-31-2009"}' >May 2009</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=4-30-2009"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=4-30-2009"}' >April 2009</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=3-31-2009"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=3-31-2009"}' >March 2009</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=2-28-2009"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=2-28-2009"}' >February 2009</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=1-31-2009"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=1-31-2009"}' >January 2009</a></li>
+        </ul>
+    </div>
+    <div class="year year-2008">
+        <button class="expand-year expand-year-2008" href="#">2008</button>
+        <ul class="months">
+            <li><a href="/sections/money/127413729/podcast/archive?date=12-31-2008"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=12-31-2008"}' >December 2008</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=11-30-2008"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=11-30-2008"}' >November 2008</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=10-31-2008"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=10-31-2008"}' >October 2008</a></li>
+            <li><a href="/sections/money/127413729/podcast/archive?date=9-30-2008"  data-metrics='{"action":"Click Archive Month","category":"Program Archive Navigation","label":"\/sections\/money\/127413729\/podcast\/archive?date=9-30-2008"}' >September 2008</a></li>
+        </ul>
+    </div>
+    <a href="#" class="more"  data-metrics='{"action":"Click Archive More Years","category":"Aggregation Archive Navigation"}' ><b>+</b> More years</a>
+</nav>
+      </div>
+      
+<!-- END ID='ARCHIVE-CORE' -->
+      <footer id="nprfooter" class="nprfooter" role="contentinfo" aria-label="NPR footer"><div class="footer-wrapper">
+      <div class="primary" data-metrics-category="Global Footer" data-metrics-label="Footer">
+    <ul>
+        <li class="homepage" data-metrics-action="Click Homepage" data-metrics-all>
+            <a href="/">Homepage</a>
+        </li>
+        <li class="news has-subnav" data-metrics-action="Click News" data-metrics-all>
+            <a href="/sections/news/">News</a>
+            <ul>
+                <li><a href="/sections/us/">U.S.</a></li>
+                <li><a href="/sections/world/">World</a></li>
+                <li><a href="/sections/politics/">Politics</a></li>
+                <li><a href="/sections/business/">Business</a></li>
+                <li><a href="/sections/technology/">Technology</a></li>
+                <li><a href="/sections/science/">Science</a></li>
+                <li><a href="/sections/health/">Health</a></li>
+                <li><a href="/sections/codeswitch/">Race &amp; Culture</a></li>
+                <li><a href="/sections/ed/">Education</a></li>
+            </ul>
+        </li>
+        <li class="artslife has-subnav" data-metrics-action="Click Arts &amp; Life" data-metrics-all>
+            <a href="/sections/arts/">Arts &amp; Life</a>
+            <ul>
+                <li><a href="/books/">Books</a></li>
+                <li><a href="/sections/movies/">Movies</a></li>
+                <li><a href="/sections/pop-culture/">Pop Culture</a></li>
+                <li><a href="/sections/food/">Food</a></li>
+                <li><a href="/sections/art-design/">Art &amp; Design</a></li>
+                <li><a href="/sections/performing-arts/">Performing Arts</a></li>
+                <li><a href="/sections/pictureshow">Photography</a></li>
+            </ul>
+        </li>
+        <li class="music has-subnav" data-metrics-action="Click Music" data-metrics-all>
+            <a href="/music/">Music</a>
+            <ul>
+                <li><a href="/series/98679384/first-listen">First Listen</a></li>
+                <li><a href="/series/122356178/songs-we-love">Songs We Love</a></li>
+                <li><a href="/series/100920965/music-articles/">Music Articles</a></li>
+                <li><a href="/series/tiny-desk-concerts/">Tiny Desk</a></li>
+                <li><a href="/sections/music-videos/">Videos</a></li>
+            </ul>
+        </li>
+        <li class="programs" data-metrics-action="Click Programs" data-metrics-all>
+            <a href="/programs/">Programs</a>
+        </li>
+        <li class="about has-subnav" data-metrics-action="Click About" data-metrics-all>
+            <a href="/about/">About</a>
+            <ul>
+                <li><a href="/about-npr/192827079/overview-and-history">NPR Overview</a></li>
+                <li><a href="/about-npr/178660742/public-radio-finances">NPR Finances</a></li>
+                <li><a href="/about-npr/179803822/people-at-npr">People at NPR</a></li>
+                <li><a href="/series/750002/support-public-radio">Support NPR</a></li>
+                <li><a href="http://tours.npr.org/npr/Home/">Visit NPR</a></li>
+                <li><a href="/series/750003/press-room/">Press Room</a></li>
+                <li><a href="/sections/npr-extra/">NPR Extra Blog</a></li>
+                <li><a href="/series/750004/careers">Careers at NPR</a></li>
+                <li><a href="/templates/corrections/corrections.php">Corrections</a></li>
+                <li><a href="/sections/ombudsman/">NPR Ombudsman</a></li>
+                <li><a href="/about-npr/179881519/rights-and-permissions-information">Permissions</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<div class="secondary">
+    <p class="copyright"><span class="copy-year"></span></p>
+    <ul>
+        <li><a href="https://help.npr.org">Help</a></li>
+        <li id="footerContact"><a href="https://www.npr.org/contact">Contact</a></li>
+        <li><a href="/about-npr/179876898/terms-of-use">Terms of Use</a></li>
+        <li><a href="/about-npr/179878450/privacy-policy">Privacy</a></li>
+        <li class="sponsorship-choices"><a href="/about-npr/179878450/privacy-policy#opting-out-of-cookies-and-web-beacons">Sponsorship Choices</a></li>
+        <li><a href="https://thin.npr.org/">Text-Only</a></li>
+    </ul>
+</div>
+</div>
+</footer>      <div id="scrolllink"><a href="/sections/money/127413729/podcast/archive?start=placeholder&amp;date=9-15-2008">More from Podcast</a></div>
+
+<div id="infinitescrollwrap">
+    <div id="infinitescroll" data-item-selector="#main-section article.item"></div>
+</div>
+   </div>
+   
+<!-- END ID="MAIN-SECTION" -->
+   <section id="main-sidebar"><aside id="ad-standard-wrap" aria-label="advertisement">
+    
+
+    <div id="ad-standard-News_Business" class="ad-standard" data-ad-config='{"network":"\/6735\/n6735","site":"NPR","zone":"News_Business","targets":{"testserver":"false","storyId":"127413729","blog":"93559255"},"location":"standard","deferred":false,"isBetweenContent":false}'></div>
+    <p class="left">NPR thanks our sponsors</p><p class="right"><a href="/about-npr/186948703/corporate-sponsorship">Become an NPR sponsor</a></p>
+
+</aside></section>
+</div>
+
+<!-- END ID="WRAPPER" -->
+<aside id="ad-adhesion-wrap" aria-label="advertisement">
+    
+
+    <div id="ad-adhesion-News_Business" class="ad-adhesion" data-ad-config='{"network":"\/6735\/n6735","site":"NPRMOBILE","zone":"News_Business","targets":{"testserver":"false","storyId":"127413729","blog":"93559255"},"location":"adhesion","deferred":false,"isBetweenContent":false}'></div>
+
+</aside><script type="text/javascript">
+   (function () {
+    var loadPageJs = function () { webpackJsonp([72,22],{0:function(n,t,c){n.exports=c(1273)},1273:function(n,t,c){"use strict";c.p=NPR.serverVars.webpackPublicPath,function(){var n=2,t=function(){--n<1&&function(n){c(22),c(139),c(197),c(196),c(108),c(166),c(198),c(162),c(241),c(159),c(254),c(260),c(161)}(c)}.bind(this);c.e(0,t),c.e(9,t)}.call(this)}}); };
+    if (document.readyState === 'complete') {
+        loadPageJs();
+    } else {
+        window.addEventListener('load', function load() {
+            window.removeEventListener('load', load, false);
+            loadPageJs();
+        });
+    }
+})();
+</script>
+</main><noscript><iframe style="display:none;padding:0;margin:0;" width="0" height="0" src="//20655831p.rfihub.com/ca.html?rb=3035&ca=20501671&ra=gtmcb"></iframe></noscript><noscript><iframe><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1621557368158968&ev=PageView&noscript=1" /></iframe></noscript><script type='text/javascript'>
+    var _sf_async_config = _sf_async_config || {};
+    /** CONFIGURATION START **/
+    _sf_async_config.uid = '18888';
+    _sf_async_config.domain = NPR.ServerConstants.cbHost;
+    _sf_async_config.useCanonical = true;
+
+    /** CONFIGURATION END **/
+    (function() {
+        function loadChartbeat() {
+            window._sf_endpt = (new Date()).getTime();
+            var e = document.createElement('script');
+            e.setAttribute('language', 'javascript');
+            e.setAttribute('type', 'text/javascript');
+            e.setAttribute('src', 'https://static.chartbeat.com/js/chartbeat.js');
+            document.body.appendChild(e);
+        }
+        var oldonload = window.onload;
+        window.onload = (typeof window.onload != 'function') ?
+                loadChartbeat : function() {
+            oldonload();
+            loadChartbeat();
+        };
+    })();
+</script><script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"ece810d90e","applicationID":"3472094","transactionName":"Y1NRZkQDV0JRAkAPWloZcEdFFlZcHyBTAXtRQUBzRAFRWEYEeAdMW0NH","queueTime":0,"applicationTime":453,"atts":"TxRGEAwZRB0SABZcTklL","errorBeacon":"bam.nr-data.net","agent":""}</script></body></html>

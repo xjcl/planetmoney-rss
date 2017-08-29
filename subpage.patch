@@ -1,0 +1,64 @@
+diff --git a/npr_pm_rip.py b/npr_pm_rip.py
+index 7b01eec..246c468 100644
+--- a/npr_pm_rip.py
++++ b/npr_pm_rip.py
+@@ -30,6 +30,7 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
+
+         self.feed_entry = {}
+         self.feed_entries = []
++        self.feed_entries_nolinks = []
+
+         self.tagattrs = collections.namedtuple('tagattrs', ['tag', 'attrs'])
+
+@@ -43,6 +44,7 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
+             self.tag_stack.append(tag)
+
+         if tag == 'a' and self.prev.tag == 'h2' and self.prev.attrs.get('class') == 'title':
++            self.feed_entry['subpage'] = attrs['href']
+             self.next_attr = 'title'
+
+         if tag == 'a' and self.prev.tag == 'p' and self.prev.attrs.get('class') == 'teaser':
+@@ -69,6 +71,8 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
+             # some stories don't have links or had theirs removed i guess
+             if 'link' in self.feed_entry:
+                 self.feed_entries.append(self.feed_entry)
++            else:
++                self.feed_entries_nolinks.append(self.feed_entry)
+             self.feed_entry = {}
+
+     def handle_data(self, data):
+@@ -113,6 +117,7 @@ def parse_site_into_feed(old_feed_entries, epoch):
+     req_nr = 0
+
+     new_feed_entries = []
++    new_feed_entries_missing_links = []
+
+     # we have to iteratre from present to the past because we need to know the last date to make the next request
+     curdate = now
+@@ -139,6 +144,26 @@ def parse_site_into_feed(old_feed_entries, epoch):
+                all(f['link'] != e['link'] for f in new_feed_entries):  # prevent duplicates
+                 new_feed_entries.append(e)
+
++        new_feed_entries_missing_links.extend(parser.feed_entries_nolinks)
++
++    # read in the subpage for each podcast missing their link
++    print(new_feed_entries_missing_links)
++    for e in new_feed_entries_missing_links:
++
++        req = urllib.request.Request(e['subpage'])
++
++        with urllib.request.urlopen(req) as response:
++            the_page = str(response.read(), 'utf-8')
++
++        parser = PlanetMoneyHTMLParser()
++        parser.feed(the_page)
++        parser.close()
++
++        # sometimes there are 2+ audio tools with the same data, lets just take the first entry
++        if len(parser.feed_entries):
++            e.update(parser.feed_entries[0])
++            new_feed_entries.append(e)
++
+     return new_feed_entries
+
+
