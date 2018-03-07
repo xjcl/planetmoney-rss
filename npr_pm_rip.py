@@ -8,6 +8,7 @@
 # by downloading the human-interfacing HTML (which does contain all episodes, surprisingly),
 #   parsing it into python datatypes (PlanetMoneyHTMLParser), and emitting an xml rss feed
 
+import sys
 import html
 import math
 import pickle
@@ -180,7 +181,11 @@ def parse_site_into_feed(old_feed_entries, epoch):
 # TODO: use feed generator instead of manually writing text
 def save_feed_entries(all_feed_entries):
 
-    with open('npr_pm_test.xml', 'w') as f:
+    for fn in ['npr_pm_test.xml', 'npr_pm_feed.xml']:
+
+        found_episodes = []
+
+        with open(fn, 'w') as f:
             f.write('''<?xml version="1.0" encoding="utf-8"?>
                 <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
                 <channel>
@@ -194,12 +199,31 @@ def save_feed_entries(all_feed_entries):
                 for k,v in sorted(e.items()):
                     if k == 'pubDate':
                         v = email.utils.format_datetime(datetime.datetime.strptime(v, '%Y-%m-%d'))
+                    if k == 'title':
+                        if v.startswith('Episode '):
+                            v = '#' + v[8:]
+                            found_episodes.append(int(v[1:v.find(':')]))
                     if k == 'link':
                         f.write('<enclosure url="' + html.escape(v) + '" length="0" type="audio/mpeg"/>')
                     f.write('<' + k + '>' + html.escape(v) + '</' + k + '>')
                 f.write('</item>\n')
 
             f.write('</channel></rss>\n')
+
+        found_episodes.reverse()
+
+        print()
+        last_nr = 377
+        for ep_nr in found_episodes:
+            if ep_nr < last_nr:  # re-run  => okay
+                pass
+            elif ep_nr == last_nr:
+                print('double entry!', file=sys.stderr)
+            elif ep_nr == last_nr + 1:  # subsequent episodes  => okay
+                last_nr = ep_nr
+            elif ep_nr > last_nr + 1:
+                print('missing eps ' + str(last_nr+1) + ' to ' + str(ep_nr-1) + '!', file=sys.stderr)
+                last_nr = ep_nr
 
     with open(FEED_PICKLE_FILE, 'wb') as f:
         pickle.dump(all_feed_entries, f)
@@ -210,3 +234,5 @@ if __name__ == '__main__':
     old_feed_entries, epoch = load_feed_entries()
     new_feed_entries = parse_site_into_feed(old_feed_entries, epoch)
     save_feed_entries(new_feed_entries + old_feed_entries)
+
+# TODO: quality control, e.g. list of episode numbers from feed, and compare to reference using a test case ?
