@@ -12,11 +12,9 @@ for more info look at this reddit thread:
     https://www.reddit.com/r/nprplanetmoney/comments/5jl8tq/why_does_the_podcast_feed_end_at_464_can_someone/
 
 
-<!-- TODO: update photos -->
-
 Example of how this feed looks in Podcast Addict:
 
-![im1](https://i.imgur.com/Dr8nA2E.png)
+![im1](https://photos.app.goo.gl/VZHRpAAQdz5VDBh93)
 
-![im2](https://i.imgur.com/2kzeiRh.png)
+![im2](https://photos.app.goo.gl/SVS2MAqtQTXTbrA12)
 
