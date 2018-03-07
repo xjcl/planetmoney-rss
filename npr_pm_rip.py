@@ -1,8 +1,3 @@
-# TODO: ncaa ep (after 801) missing
-
-# TODO: use something like 'planetmoney-rss/feed.xml' instead of an url containing 'test' (ew!)
-# TODO: This American Life ?
-
 # assembles a podcast feed (rss/xml) containing all planet money episodes
 #   (their official feed only includes the most recent episodes)
 # by downloading the human-interfacing HTML (which does contain all episodes, surprisingly),
@@ -268,7 +263,7 @@ def save_feed_entries(all_feed_entries):
         elif ep_nr > last_nr + 1:
             # hardcode episodes that are NOT missing but just with titles missing number :>
             #   either by mistake or in the "Oil #X" (716-720) and "SPACE X" (808-811) series
-            if (last_nr, ep_nr) in [(537, 539), (675, 677), (715, 721), (807, 812)]:
+            if (last_nr, ep_nr) in [(715, 721), (807, 812)]:
                 last_nr = ep_nr
                 continue
             if last_nr+1 == ep_nr-1:
@@ -301,6 +296,7 @@ if __name__ == '__main__':
 # TODO: fix new eps addition bug
 # TODO: automate new eps addition (server?)
 # TODO: why do some episodes have info on mm:ss length and some don't ?
-# TODO: okay to remove 0 bytes length ? or calculate ?
 
-# TODO: with parser as !!
+# TODO: deprecate 'npr_pm_test.xml'
+# TODO: This American Life ?
+# TODO: episode duration for ALL episodes, eg #407
