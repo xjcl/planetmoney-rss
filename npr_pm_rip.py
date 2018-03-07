@@ -11,6 +11,8 @@
 import sys
 import html
 import math
+import json
+import base64
 import pickle
 import datetime
 import itertools
@@ -58,16 +60,20 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
         if tag == 'a' and self.prev.tag == 'p' and self.prev.attrs.get('class') == 'teaser':
             self.next_attr = 'description'
 
-        if tag == 'a' and self.prev.tag == 'li' and self.prev.attrs.get('class') == 'audio-tool audio-tool-download':
-            self.feed_entry['link'] = attrs['href']
-            self.feed_entry['guid'] = attrs['href']
-
         if tag == 'time':
-            # TODO: remove duration (implicit in file + ugly itunes tag) ?
+            # TODO: remove non-iTunes-duration ?  also some are missing duration, eg #366  (DL?)
             if attrs.get('class') == 'audio-module-duration':
                 self.next_attr = 'itunes:duration'
             else:
                 self.feed_entry['pubDate'] = attrs['datetime']
+
+        # don't use download link for download but instead stream-link as some DL links are missing ! eg #702
+        if attrs.get('class') == 'audio-module-controls-wrap' and self.prev.attrs.get('class') == 'audio-module-title' and 'data-audio' in attrs:
+            self.feed_entry['link'] = json.loads(attrs['data-audio'])['audioUrl']   # ondemand.npr.org
+            if not self.feed_entry['link'].startswith('https://'):
+                self.feed_entry['link'] = base64.b64decode(self.feed_entry['link']).decode('UTF-8')
+            self.feed_entry['guid'] = self.feed_entry['link']
+            print(self.feed_entry['link'])
 
         self.prev = self.tagattrs(tag, attrs)
 
@@ -80,7 +86,9 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
             # since 2017 stories lack audio modules now, you have to go on the episode pages themselves for the links
 
             # case we are on the main feed page which has subpages
+            coo = False
             if self.subpage:
+                print('DL-ing ' + self.subpage)
                 req = urllib.request.Request(self.subpage)
 
                 with urllib.request.urlopen(req) as response:
@@ -111,8 +119,11 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
                 # ?? https://www.npr.org/sections/money/2008/09/so_how_big_is_700_billion_anyw.html
                 # R  https://www.npr.org/sections/money/2008/09/oil_up_stocks_down_plus_the_ro_1.html
                 if 'audio-tool-download' not in the_page:  # affected: #
-                    print('No download link on episode page:' + self.subpage, file=sys.stderr)
+                    print('No proper download link on page: ' + self.subpage, file=sys.stderr)
+                    print(parser.feed_entries)
+                    coo = True
                 parser.close()
+
 
                 for e in parser.feed_entries:
                     # ugly hack
@@ -125,6 +136,10 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
 
                 self.subpage = None
 
+
+            if coo:  # affected: #
+                print(self.feed_entry)
+                print('link' in self.feed_entry)
 
             if 'link' in self.feed_entry:
                 self.feed_entries.append(self.feed_entry)
@@ -187,6 +202,7 @@ def parse_site_into_feed(old_feed_entries, epoch):
         with urllib.request.urlopen(req) as response:
             the_page = str(response.read(), 'utf-8')
 
+        print('init DL-ing ' + full_url)
         parser = PlanetMoneyHTMLParser()
         parser.feed(the_page)
         parser.close()
@@ -275,3 +291,5 @@ if __name__ == '__main__':
 # TODO: quality control, e.g. list of episode numbers from feed, and compare to reference using a test case ?
 # TODO: fix new eps addition bug
 # TODO: automate new eps addition (server?)
+# TODO: why do some episodes have info on mm:ss length and some don't ?
+# TODO: okay to remove 0 bytes length ? or calculate ?
