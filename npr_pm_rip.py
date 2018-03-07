@@ -1,3 +1,8 @@
+# TODO: ncaa ep (after 801) missing
+
+# TODO: use something like 'planetmoney-rss/feed.xml' instead of an url containing 'test' (ew!)
+# TODO: This American Life ?
+
 # assembles a podcast feed (rss/xml) containing all planet money episodes
 #   (their official feed only includes the most recent episodes)
 # by downloading the human-interfacing HTML (which does contain all episodes, surprisingly),
@@ -9,6 +14,7 @@ import pickle
 import datetime
 import itertools
 import html.parser
+import email.utils
 import collections
 import urllib.request
 
@@ -91,7 +97,7 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
                     self.feed_entry.update(e)
 
                     if len(old_pub_date) == len('YYYY-MM-DD'):   # -> we DONT want the 'T22:10:00' part or a duration!
-                        self.feed_entry['pubDate'] = old_pub_date
+                        self.feed_entry['pubDate'] = old_pub_date   # TODO: more exact datetime (add hours and minutes)
 
                 self.subpage = None
 
@@ -171,6 +177,7 @@ def parse_site_into_feed(old_feed_entries, epoch):
 
 
 
+# TODO: use feed generator instead of manually writing text
 def save_feed_entries(all_feed_entries):
 
     with open('npr_pm_test.xml', 'w') as f:
@@ -185,6 +192,10 @@ def save_feed_entries(all_feed_entries):
             for e in all_feed_entries:
                 f.write('<item>')
                 for k,v in sorted(e.items()):
+                    if k == 'pubDate':
+                        v = email.utils.format_datetime(datetime.datetime.strptime(v, '%Y-%m-%d'))
+                    if k == 'link':
+                        f.write('<enclosure url="' + html.escape(v) + '" length="0" type="audio/mpeg"/>')
                     f.write('<' + k + '>' + html.escape(v) + '</' + k + '>')
                 f.write('</item>\n')
 
