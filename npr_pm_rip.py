@@ -200,6 +200,9 @@ def save_feed_entries(all_feed_entries):
                     if k == 'pubDate':
                         v = email.utils.format_datetime(datetime.datetime.strptime(v, '%Y-%m-%d'))
                     if k == 'title':
+                        if v.startswith(' Episode '):
+                            # oh my god the intern deserves an ass-whooping xDDD
+                            v = v[1:]
                         if v.startswith('Episode '):
                             v = '#' + v[8:]
                             found_episodes.append(int(v[1:v.find(':')]))
@@ -212,9 +215,12 @@ def save_feed_entries(all_feed_entries):
 
         found_episodes.reverse()
 
+        # test if our scraping missed any episodes  (won't detect missing re-runs)
         print()
+        print(found_episodes, file=sys.stderr)
         last_nr = 377
         for ep_nr in found_episodes:
+            # print(ep_nr, file=sys.stderr)
             if ep_nr < last_nr:  # re-run  => okay
                 pass
             elif ep_nr == last_nr:
@@ -222,7 +228,15 @@ def save_feed_entries(all_feed_entries):
             elif ep_nr == last_nr + 1:  # subsequent episodes  => okay
                 last_nr = ep_nr
             elif ep_nr > last_nr + 1:
-                print('missing eps ' + str(last_nr+1) + ' to ' + str(ep_nr-1) + '!', file=sys.stderr)
+                # hardcode episodes that are NOT missing but just with titles missing number :>
+                #   either by mistake or in the "Oil #X" (716-720) and "SPACE X" (808-811) series
+                if (last_nr, ep_nr) in [(537, 539), (675, 677), (715, 721), (807, 812)]:
+                    last_nr = ep_nr
+                    continue
+                if last_nr+1 == ep_nr-1:
+                    print('missing ep ' + str(last_nr+1) + '!', file=sys.stderr)
+                else:
+                    print('missing eps ' + str(last_nr+1) + ' to ' + str(ep_nr-1) + '!', file=sys.stderr)
                 last_nr = ep_nr
 
     with open(FEED_PICKLE_FILE, 'wb') as f:
@@ -236,3 +250,5 @@ if __name__ == '__main__':
     save_feed_entries(new_feed_entries + old_feed_entries)
 
 # TODO: quality control, e.g. list of episode numbers from feed, and compare to reference using a test case ?
+# TODO: fix new eps addition bug
+# TODO: automate new eps addition (server?)
