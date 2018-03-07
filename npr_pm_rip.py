@@ -8,10 +8,13 @@
 # by downloading the human-interfacing HTML (which does contain all episodes, surprisingly),
 #   parsing it into python datatypes (PlanetMoneyHTMLParser), and emitting an xml rss feed
 
+import re
 import sys
 import html
 import math
 import json
+import time
+import pytz
 import base64
 import pickle
 import datetime
@@ -20,6 +23,7 @@ import html.parser
 import email.utils
 import collections
 import urllib.request
+import dateutil.parser
 
 # input:   "npr planet money" html website corresponding to a month+year-date
 # output:  stored in self.feed_entries which is a list of entries
@@ -53,18 +57,22 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
         if self.next_attr:
             self.tag_stack.append(tag)
 
-        if tag == 'a' and self.prev.tag == 'h2' and self.prev.attrs.get('class') == 'title':
+        if tag == 'a' and self.prev.tag == 'h2' and self.prev.attrs.get('class') == 'title':  # on episode list page
             self.subpage = attrs['href']
+            self.next_attr = 'title'
+        if attrs.get('class') == 'audio-module-title':  # on episode's own page (= subpage)
             self.next_attr = 'title'
 
         if tag == 'a' and self.prev.tag == 'p' and self.prev.attrs.get('class') == 'teaser':
             self.next_attr = 'description'
+        if tag == 'meta' and attrs.get('name') == 'description':
+            self.feed_entry['description'] = attrs['content']
 
         if tag == 'time':
             # TODO: remove non-iTunes-duration ?  also some are missing duration, eg #366  (DL?)
             if attrs.get('class') == 'audio-module-duration':
                 self.next_attr = 'itunes:duration'
-            else:
+            elif self.prev.attrs.get('class') == 'dateblock' or 'href' in self.prev.attrs:
                 self.feed_entry['pubDate'] = attrs['datetime']
 
         # don't use download link for download but instead stream-link as some DL links are missing ! eg #702
@@ -73,78 +81,54 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
             if not self.feed_entry['link'].startswith('https://'):
                 self.feed_entry['link'] = base64.b64decode(self.feed_entry['link']).decode('UTF-8')
             self.feed_entry['guid'] = self.feed_entry['link']
-            print(self.feed_entry['link'])
 
         self.prev = self.tagattrs(tag, attrs)
+
+    # re-use scraping code on an indiviual episode's page (= subpage), this requires some trickery
+    #   (combining all fake feed_entries of the subpage on top of the current dict)
+    def add_subpage_info(self, url):
+
+        req = urllib.request.Request(url)
+
+        with urllib.request.urlopen(req) as response:
+            the_page = str(response.read(), 'utf-8')
+
+        parser = PlanetMoneyHTMLParser()
+        parser.feed(the_page)
+        if 'audio-module-controls-wrap' not in the_page:
+            print('No download link on page: ' + url, file=sys.stderr)
+            # dl_missing = True
+        parser.close()
+
+        for e in parser.feed_entries:
+            self.feed_entry.update(e)
 
     def handle_endtag(self, tag):
         if self.tag_stack:
             self.tag_stack.pop()
 
         if tag == 'article' and self.feed_entry:
+            # since 2017 stories lack audio modules now, you have to go on the episode pages themselves for the links =(
+            #   and also for full release date timestamps (overview pages only have the date, not the time)
 
-            # since 2017 stories lack audio modules now, you have to go on the episode pages themselves for the links
-
-            # case we are on the main feed page which has subpages
-            coo = False
             if self.subpage:
-                print('DL-ing ' + self.subpage)
-                req = urllib.request.Request(self.subpage)
+                # print('DL-ing ' + self.subpage)
+                self.add_subpage_info(self.subpage)
 
-                with urllib.request.urlopen(req) as response:
-                    the_page = str(response.read(), 'utf-8')
+                # OMG they straight up forgot an episode in their feed. this intern needs to be fired xD
+                if self.subpage == 'https://www.npr.org/sections/money/2016/07/22/487069271/episode-576-when-women-stopped-coding':
 
-                parser = PlanetMoneyHTMLParser()
-                parser.feed(the_page)
-                # no download link on episode page. affected:
-                # (NP: not a podcast so okay, R: redacted so okay, P: podcast i have to add in)
-                # P  https://www.npr.org/sections/money/2017/12/08/567017343/space-4-3-2-1
-                # NP https://www.npr.org/sections/money/2017/12/01/567272061/the-planet-money-mission-patch
-                # P  https://www.npr.org/sections/money/2017/08/04/541643346/episode-787-google-is-big-is-that-bad
-                # P  https://www.npr.org/sections/money/2016/05/20/478883658/episode-702-nigeria-you-win
-                # NP https://www.npr.org/sections/money/2015/02/05/384110913/how-to-avoid-downloading-300-episodes-of-planet-money
-                # NP https://www.npr.org/sections/money/2012/11/23/165763990/happy-thanksgiving
-                # P  https://www.npr.org/sections/money/2012/09/04/160555540/episode-279-the-failure-tour-of-new-york   (rerun so idc lol)
-                # NP https://www.npr.org/sections/money/2012/02/08/146599488/now-on-itunes-the-planet-money-archive
-                #    https://www.npr.org/sections/money/2011/05/24/136618552/the-tuesday-podcast-do-we-need-the-imf
-                #    https://www.npr.org/sections/money/2011/02/25/134059518/the-friday-podcast-the-difference-between-egypt-and-libya
-                #    https://www.npr.org/sections/money/2010/06/04/127480338/the-friday-podcast-india-s-economy-is-booming-but-not-for-everybody
-                # NP https://www.npr.org/sections/money/2010/03/_chris_dodd_the_fifth.html
-                #    https://www.npr.org/sections/money/2009/06/hear_secrets_of_the_watchmen.html
-                #    https://www.npr.org/sections/money/2009/05/hear_they_know_you.html
-                #    https://www.npr.org/sections/money/2008/12/hear_the_mystery_of_jobs.html
-                #    https://www.npr.org/sections/money/2008/11/hear_auto_industry_asks_for_he.html
-                #    https://www.npr.org/sections/money/2008/10/hear_whole_globe_says_ouch.html
-                # R  https://www.npr.org/sections/money/2008/09/bush_adviser_ponders_what_did.html
-                # ?? https://www.npr.org/sections/money/2008/09/so_how_big_is_700_billion_anyw.html
-                # R  https://www.npr.org/sections/money/2008/09/oil_up_stocks_down_plus_the_ro_1.html
-                if 'audio-tool-download' not in the_page:  # affected: #
-                    print('No proper download link on page: ' + self.subpage, file=sys.stderr)
-                    print(parser.feed_entries)
-                    coo = True
-                parser.close()
+                    self.feed_entries.append(self.feed_entry)
+                    self.feed_entry = {}
 
-
-                for e in parser.feed_entries:
-                    # ugly hack
-                    old_pub_date = self.feed_entry['pubDate']
-
-                    self.feed_entry.update(e)
-
-                    if len(old_pub_date) == len('YYYY-MM-DD'):   # -> we DONT want the 'T22:10:00' part or a duration!
-                        self.feed_entry['pubDate'] = old_pub_date   # TODO: more exact datetime (add hours and minutes)
+                    self.add_subpage_info('https://www.npr.org/sections/money/2016/07/20/486785422/episode-713-paying-for-the-crime')
 
                 self.subpage = None
 
-
-            if coo:  # affected: #
-                print(self.feed_entry)
-                print('link' in self.feed_entry)
-
-            if 'link' in self.feed_entry:
-                self.feed_entries.append(self.feed_entry)
-
+            # is unindented to sneakily handle a subpage's pseduo-feed also
+            self.feed_entries.append(self.feed_entry)
             self.feed_entry = {}
+
 
     def handle_data(self, data):
         if not self.next_attr:
@@ -153,16 +137,24 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
         if self.tag_stack:
             return
 
+        # o god pls stop with the inconsistencies =/  affects #824 #657 #618 and others
+        if self.next_attr == 'title' and data == 'Listen ':
+            self.next_attr = ''
+            return
+
+        # some missing initial '#'s...
+        if self.next_attr == 'title' and re.match('[0-9]+:', data):
+            self.feed_entry['title'] = '#' + data
+            self.next_attr = ''
+            return
+
         self.feed_entry[self.next_attr] = data
         self.next_attr = ''
 
 
-# ok not to subtract one here cos there was only a single episode that date
-PLANET_MONEY_EPOCH = datetime.datetime(2008, 9, 9)
+PLANET_MONEY_EPOCH = dateutil.parser.parse('2008-09-09T16:45:00-04:00')  # datetime of 1st episode
 FEED_PICKLE_FILE = 'npr_pm_feed.pickle'
 URL_STEM = 'http://www.npr.org/sections/money/127413729/podcast/archive'
-
-
 
 # try to load cached results from a previous run of this script
 def load_feed_entries():
@@ -171,7 +163,7 @@ def load_feed_entries():
             # i think we have to store the rss feed "newest-first"
             #     (everyone else does it, looks dum in firefox if "oldest-first")
             old_feed_entries = pickle.load(f)
-        epoch = datetime.datetime.strptime(old_feed_entries[0]['pubDate'], '%Y-%m-%d') - datetime.timedelta(days=1)
+        epoch = dateutil.parser.parse(old_feed_entries[0]['pubDate']) - datetime.timedelta(days=1)
 
     except:
         old_feed_entries = []
@@ -180,10 +172,9 @@ def load_feed_entries():
     return (old_feed_entries, epoch)
 
 
-
 def parse_site_into_feed(old_feed_entries, epoch):
 
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(pytz.utc)
     print('making ~' + str(math.ceil((now - epoch).days / 40)) + ' requests to gather urls, please be patient...')
     req_nr = 0
 
@@ -202,13 +193,18 @@ def parse_site_into_feed(old_feed_entries, epoch):
         with urllib.request.urlopen(req) as response:
             the_page = str(response.read(), 'utf-8')
 
-        print('init DL-ing ' + full_url)
+        # print('init DL-ing ' + full_url)
         parser = PlanetMoneyHTMLParser()
         parser.feed(the_page)
         parser.close()
 
         for e in parser.feed_entries:
-            curdate = datetime.datetime.strptime(e['pubDate'], '%Y-%m-%d')
+            # exclude space overview page with 4 episode links
+            if not 'link' in e or e['title'] == 'Episode 4':
+                continue
+            # curdate = datetime.datetime.strptime(e['pubDate'], '%Y-%m-%d')
+            # curdate = datetime.datetime(*time.strptime(e['pubDate'], "%Y-%m-%dT%H:%M:%S")[:6])
+            curdate = dateutil.parser.parse(e['pubDate'])
             if all(f['link'] != e['link'] for f in old_feed_entries) and \
                all(f['link'] != e['link'] for f in new_feed_entries):  # prevent duplicates
                 new_feed_entries.append(e)
@@ -216,70 +212,83 @@ def parse_site_into_feed(old_feed_entries, epoch):
     return new_feed_entries
 
 
-
 # TODO: use feed generator instead of manually writing text
 def save_feed_entries(all_feed_entries):
 
-    for fn in ['npr_pm_test.xml', 'npr_pm_feed.xml']:
-
-        found_episodes = []
-
-        with open(fn, 'w') as f:
-            f.write('''<?xml version="1.0" encoding="utf-8"?>
-                <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
-                <channel>
-                <title>Planet Money but it's all episodes</title>
-                <link>https://github.com/xjcl/planetmoney-rss/tree/gh-pages</link>
-                <image><url>http://nationalpublicmedia.com/wp-content/uploads/2014/06/planetmoney.png</url></image>
-                <description>pls don't sue</description>\n''')
-
-            for e in all_feed_entries:
-                f.write('<item>\n')
-                for k,v in sorted(e.items()):
-                    if k == 'pubDate':
-                        v = email.utils.format_datetime(datetime.datetime.strptime(v, '%Y-%m-%d'))
-                    if k == 'title':
-                        if v.startswith(' Episode '):   # affected: #428 #567
-                            # oh my god the intern deserves an ass-whooping xDDD
-                            v = v[1:]
-                        if v.startswith('Episode '):
-                            v = '#' + v[8:]
-                            found_episodes.append(int(v[1:v.find(':')]))
-                    if k == 'link':
-                        f.write('<enclosure url="' + html.escape(v) + '" length="0" type="audio/mpeg"/>')
-                    f.write('<' + k + '>' + html.escape(v) + '</' + k + '>\n')
-                f.write('</item>\n\n')
-
-            f.write('</channel></rss>\n')
-
-        found_episodes.reverse()
-
-        # test if our scraping missed any episodes  (won't detect missing re-runs)
-        print()
-        print(found_episodes, file=sys.stderr)
-        last_nr = 377
-        for ep_nr in found_episodes:
-            # print(ep_nr, file=sys.stderr)
-            if ep_nr < last_nr:  # re-run  => okay
-                pass
-            elif ep_nr == last_nr:
-                print('double entry!', file=sys.stderr)
-            elif ep_nr == last_nr + 1:  # subsequent episodes  => okay
-                last_nr = ep_nr
-            elif ep_nr > last_nr + 1:
-                # hardcode episodes that are NOT missing but just with titles missing number :>
-                #   either by mistake or in the "Oil #X" (716-720) and "SPACE X" (808-811) series
-                if (last_nr, ep_nr) in [(537, 539), (675, 677), (715, 721), (807, 812)]:
-                    last_nr = ep_nr
-                    continue
-                if last_nr+1 == ep_nr-1:
-                    print('missing ep ' + str(last_nr+1) + '!', file=sys.stderr)
-                else:
-                    print('missing eps ' + str(last_nr+1) + ' to ' + str(ep_nr-1) + '!', file=sys.stderr)
-                last_nr = ep_nr
+    print('All requests done! Now saving to file(s).')
 
     with open(FEED_PICKLE_FILE, 'wb') as f:
         pickle.dump(all_feed_entries, f)
+
+    found_episodes = []
+
+    with open('npr_pm_feed.xml', 'w') as f:
+        f.write('''<?xml version="1.0" encoding="utf-8"?>
+            <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+            <channel>
+            <title>Planet Money but it's all episodes</title>
+            <link>https://github.com/xjcl/planetmoney-rss/tree/gh-pages</link>
+            <image><url>http://nationalpublicmedia.com/wp-content/uploads/2014/06/planetmoney.png</url></image>
+            <description>NPR's Planet Money. The economy, explained. Collated into a full-history feed by some d00d.</description>\n''')
+
+        for e in all_feed_entries:
+            f.write('<item>\n')
+            for k,v in sorted(e.items()):
+                if k == 'pubDate':
+                    v = email.utils.format_datetime(dateutil.parser.parse(v))
+                if k == 'title':
+                    if v.startswith(' Episode '):   # affected: #428 #567
+                        # oh my god the intern deserves an ass-whooping xDDD
+                        v = v[1:]
+                    if v.startswith('Episode '):
+                        v = '#' + v[8:]
+                    if v.startswith('#'):
+                        found_episodes.append(int(v[1:v.find(':')]))
+                if k == 'link':
+                    f.write('<enclosure url="' + html.escape(v) + '" type="audio/mpeg"/>')
+                f.write('<' + k + '>' + html.escape(v) + '</' + k + '>\n')
+            f.write('</item>\n\n')
+
+        f.write('</channel></rss>\n')
+
+    found_episodes.reverse()
+
+    # test if our scraping missed any episodes  (won't detect missing re-runs)
+    last_nr = 376
+    print('Checking integrity of new episodes (excludes re-runs) after #' + str(last_nr) + '...', file=sys.stderr)
+    # print(found_episodes, file=sys.stderr)
+    for ep_nr in found_episodes:
+        # print(ep_nr, file=sys.stderr)
+        if ep_nr < last_nr:  # re-run  => okay
+            pass
+        elif ep_nr == last_nr:
+            print('double entry! ep ' + str(ep_nr), file=sys.stderr)
+        elif ep_nr == last_nr + 1:  # subsequent episodes  => okay
+            last_nr = ep_nr
+        elif ep_nr > last_nr + 1:
+            # hardcode episodes that are NOT missing but just with titles missing number :>
+            #   either by mistake or in the "Oil #X" (716-720) and "SPACE X" (808-811) series
+            if (last_nr, ep_nr) in [(537, 539), (675, 677), (715, 721), (807, 812)]:
+                last_nr = ep_nr
+                continue
+            if last_nr+1 == ep_nr-1:
+                print('missing ep ' + str(last_nr+1) + '!', file=sys.stderr)
+            else:
+                print('missing eps ' + str(last_nr+1) + ' to ' + str(ep_nr-1) + '!', file=sys.stderr)
+            last_nr = ep_nr
+
+
+# pop n most recent episodes from history  -> used for debugging
+def pop_from_history(n):
+
+    feed = []
+    with open(FEED_PICKLE_FILE, 'rb') as f:
+        feed = pickle.load(f)
+
+    feed = feed[n:]
+
+    with open(FEED_PICKLE_FILE, 'wb') as f:
+        pickle.dump(feed, f)
 
 
 
@@ -293,3 +302,5 @@ if __name__ == '__main__':
 # TODO: automate new eps addition (server?)
 # TODO: why do some episodes have info on mm:ss length and some don't ?
 # TODO: okay to remove 0 bytes length ? or calculate ?
+
+# TODO: with parser as !!
