@@ -88,8 +88,31 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
 
                 parser = PlanetMoneyHTMLParser()
                 parser.feed(the_page)
+                # no download link on episode page. affected:
+                # (NP: not a podcast so okay, R: redacted so okay, P: podcast i have to add in)
+                # P  https://www.npr.org/sections/money/2017/12/08/567017343/space-4-3-2-1
+                # NP https://www.npr.org/sections/money/2017/12/01/567272061/the-planet-money-mission-patch
+                # P  https://www.npr.org/sections/money/2017/08/04/541643346/episode-787-google-is-big-is-that-bad
+                # P  https://www.npr.org/sections/money/2016/05/20/478883658/episode-702-nigeria-you-win
+                # NP https://www.npr.org/sections/money/2015/02/05/384110913/how-to-avoid-downloading-300-episodes-of-planet-money
+                # NP https://www.npr.org/sections/money/2012/11/23/165763990/happy-thanksgiving
+                # P  https://www.npr.org/sections/money/2012/09/04/160555540/episode-279-the-failure-tour-of-new-york   (rerun so idc lol)
+                # NP https://www.npr.org/sections/money/2012/02/08/146599488/now-on-itunes-the-planet-money-archive
+                #    https://www.npr.org/sections/money/2011/05/24/136618552/the-tuesday-podcast-do-we-need-the-imf
+                #    https://www.npr.org/sections/money/2011/02/25/134059518/the-friday-podcast-the-difference-between-egypt-and-libya
+                #    https://www.npr.org/sections/money/2010/06/04/127480338/the-friday-podcast-india-s-economy-is-booming-but-not-for-everybody
+                # NP https://www.npr.org/sections/money/2010/03/_chris_dodd_the_fifth.html
+                #    https://www.npr.org/sections/money/2009/06/hear_secrets_of_the_watchmen.html
+                #    https://www.npr.org/sections/money/2009/05/hear_they_know_you.html
+                #    https://www.npr.org/sections/money/2008/12/hear_the_mystery_of_jobs.html
+                #    https://www.npr.org/sections/money/2008/11/hear_auto_industry_asks_for_he.html
+                #    https://www.npr.org/sections/money/2008/10/hear_whole_globe_says_ouch.html
+                # R  https://www.npr.org/sections/money/2008/09/bush_adviser_ponders_what_did.html
+                # ?? https://www.npr.org/sections/money/2008/09/so_how_big_is_700_billion_anyw.html
+                # R  https://www.npr.org/sections/money/2008/09/oil_up_stocks_down_plus_the_ro_1.html
+                if 'audio-tool-download' not in the_page:  # affected: #
+                    print('No download link on episode page:' + self.subpage, file=sys.stderr)
                 parser.close()
-
 
                 for e in parser.feed_entries:
                     # ugly hack
@@ -195,12 +218,12 @@ def save_feed_entries(all_feed_entries):
                 <description>pls don't sue</description>\n''')
 
             for e in all_feed_entries:
-                f.write('<item>')
+                f.write('<item>\n')
                 for k,v in sorted(e.items()):
                     if k == 'pubDate':
                         v = email.utils.format_datetime(datetime.datetime.strptime(v, '%Y-%m-%d'))
                     if k == 'title':
-                        if v.startswith(' Episode '):
+                        if v.startswith(' Episode '):   # affected: #428 #567
                             # oh my god the intern deserves an ass-whooping xDDD
                             v = v[1:]
                         if v.startswith('Episode '):
@@ -208,8 +231,8 @@ def save_feed_entries(all_feed_entries):
                             found_episodes.append(int(v[1:v.find(':')]))
                     if k == 'link':
                         f.write('<enclosure url="' + html.escape(v) + '" length="0" type="audio/mpeg"/>')
-                    f.write('<' + k + '>' + html.escape(v) + '</' + k + '>')
-                f.write('</item>\n')
+                    f.write('<' + k + '>' + html.escape(v) + '</' + k + '>\n')
+                f.write('</item>\n\n')
 
             f.write('</channel></rss>\n')
 
