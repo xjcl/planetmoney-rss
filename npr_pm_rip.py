@@ -300,3 +300,5 @@ if __name__ == '__main__':
 # TODO: deprecate 'npr_pm_test.xml'
 # TODO: This American Life ?
 # TODO: episode duration for ALL episodes, eg #407
+
+# TODO: add numbering to old episodes (if no re-runs)
