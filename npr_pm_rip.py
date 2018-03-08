@@ -263,7 +263,7 @@ def save_feed_entries(all_feed_entries):
         elif ep_nr > last_nr + 1:
             # hardcode episodes that are NOT missing but just with titles missing number :>
             #   either by mistake or in the "Oil #X" (716-720) and "SPACE X" (808-811) series
-            if (last_nr, ep_nr) in [(715, 721), (807, 812)]:
+            if (last_nr, ep_nr) in [(675, 677), (715, 721), (807, 812)]:
                 last_nr = ep_nr
                 continue
             if last_nr+1 == ep_nr-1:
