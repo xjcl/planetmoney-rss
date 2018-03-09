@@ -132,8 +132,8 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
         if self.tag_stack:
             return
 
-        # o god pls stop with the inconsistencies =/  affects #824 #657 #618 and others
-        if self.next_attr == 'title' and data == 'Listen ':
+        # o god pls stop with the inconsistencies =/  affects #824 #657 #618 and others  -> 'Listen ' 'Listen to Podcast' 'Listen to Mark's Story' etc
+        if self.next_attr == 'title' and data.startswith('Listen ') and not data.startswith('Listen Up'):
             self.next_attr = ''
             return
 
@@ -170,7 +170,7 @@ def load_feed_entries():
 def parse_site_into_feed(old_feed_entries, epoch):
 
     now = datetime.datetime.now(pytz.utc)
-    print('making ~' + str(math.ceil((now - epoch).days / 40)) + ' requests to gather urls, please be patient...')
+    print('Making ~' + str(math.ceil((now - epoch).days / 40)) + ' requests to gather urls, please be patient...')
     req_nr = 0
 
     new_feed_entries = []
@@ -226,7 +226,8 @@ def save_feed_entries(all_feed_entries):
             <image><url>http://nationalpublicmedia.com/wp-content/uploads/2014/06/planetmoney.png</url></image>
             <description>NPR's Planet Money. The economy, explained. Collated into a full-history feed by some d00d.</description>\n''')
 
-        for e in all_feed_entries:
+        # for e in all_feed_entries:
+        for i,e in enumerate(all_feed_entries):
             f.write('<item>\n')
             for k,v in sorted(e.items()):
                 if k == 'pubDate':
@@ -239,6 +240,7 @@ def save_feed_entries(all_feed_entries):
                         v = '#' + v[8:]
                     if v.startswith('#'):
                         found_episodes.append(int(v[1:v.find(':')]))
+                    print(len(all_feed_entries)-i, v)
                 if k == 'link':
                     f.write('<enclosure url="' + html.escape(v) + '" type="audio/mpeg"/>')
                 f.write('<' + k + '>' + html.escape(v) + '</' + k + '>\n')
@@ -301,4 +303,6 @@ if __name__ == '__main__':
 # TODO: This American Life ?
 # TODO: episode duration for ALL episodes, eg #407
 
-# TODO: add numbering to old episodes (if no re-runs)
+# TODO: add numbering to old episodes (but how to deal with re-runs?)
+
+# TODO: fix titles for 449 450  310
