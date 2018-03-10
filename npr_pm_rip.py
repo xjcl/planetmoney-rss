@@ -305,4 +305,4 @@ if __name__ == '__main__':
 
 # TODO: add numbering to old episodes (but how to deal with re-runs?)
 
-# TODO: fix titles for 449 450  310
+# TODO: fix descriptions for early episodes
