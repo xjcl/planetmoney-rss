@@ -64,7 +64,7 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
             self.feed_entry['description'] = attrs['content']
 
         if tag == 'time':
-            # TODO: remove non-iTunes-duration ?  also some are missing duration, eg #366  (DL?)
+            # TODO: some are missing duration, eg #366  (DL?)
             if attrs.get('class') == 'audio-module-duration':
                 self.next_attr = 'itunes:duration'
             elif self.prev.attrs.get('class') == 'dateblock' or 'href' in self.prev.attrs:
@@ -170,7 +170,7 @@ def load_feed_entries():
 def parse_site_into_feed(old_feed_entries, epoch):
 
     now = datetime.datetime.now(pytz.utc)
-    print('Making ~' + str(math.ceil((now - epoch).days / 40)) + ' requests to gather urls, please be patient...')
+    print('Going through ~' + str(math.ceil((now - epoch).days / 40)) + ' pages of episodes, please be patient...')
     req_nr = 0
 
     new_feed_entries = []
@@ -180,7 +180,7 @@ def parse_site_into_feed(old_feed_entries, epoch):
     while curdate > epoch:
 
         req_nr += 1
-        print('Request number', req_nr, 'for date', curdate.strftime('%Y-%m-%d'), end='\r')
+        print('On page #' + str(req_nr) + ' for date ' + curdate.strftime('%Y-%m-%d'), end='\r')
 
         full_url = URL_STEM + curdate.strftime('?date=%m-%d-%Y')  # site uses yankeedates !! lmao
         req = urllib.request.Request(full_url)
@@ -294,6 +294,8 @@ if __name__ == '__main__':
     new_feed_entries = parse_site_into_feed(old_feed_entries, epoch)
     save_feed_entries(new_feed_entries + old_feed_entries)
 
+# TODO: (low-prio) add pictures
+
 # TODO: quality control, e.g. list of episode numbers from feed, and compare to reference using a test case ?
 # TODO: fix new eps addition bug
 # TODO: automate new eps addition (server?)
@@ -306,3 +308,5 @@ if __name__ == '__main__':
 # TODO: add numbering to old episodes (but how to deal with re-runs?)
 
 # TODO: fix descriptions for early episodes
+
+# TODO: find diverging titles+descriptions between episode pages and episode overviews
