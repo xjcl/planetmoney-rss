@@ -303,6 +303,7 @@ if __name__ == '__main__':
 
 # TODO: deprecate 'npr_pm_test.xml'
 # TODO: This American Life ?
+# TODO: make cps of the indicator just in case ?
 # TODO: episode duration for ALL episodes, eg #407
 
 # TODO: add numbering to old episodes (but how to deal with re-runs?)

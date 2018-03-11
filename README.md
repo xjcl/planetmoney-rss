@@ -1,6 +1,6 @@
 # planetmoney-rss
 
-**The feed is available under this link**:
+**This feed is available here**:
     https://xjcl.github.io/planetmoney-rss/npr_pm_feed.xml
 
 *Planetmoney-rss* is a script to assemble a podcast feed containing **ALL** [Planet Money](https://en.wikipedia.org/wiki/Planet_Money) episodes, including all old episodes going back to 2008.
@@ -11,6 +11,7 @@ This is done by downloading the human-interfacing HTML from NPR's Planet Money [
 For more information look at this reddit thread:
     https://www.reddit.com/r/nprplanetmoney/comments/5jl8tq/why_does_the_podcast_feed_end_at_464_can_someone/
 
+The feed is titled *Planet Money but it's all episodes*. Currently the pages `npr_pm_test.xml` and `npr_pm_feed.xml` are identical. I will soon deprecate the former's URL which was originally for testing purposes, and the Podcast Addict search should only find the correct URL.
 
 Screenshots of how this feed looks in Podcast Addict:
 
@@ -19,3 +20,4 @@ Screenshots of how this feed looks in Podcast Addict:
 ![im2](https://i.imgur.com/SanFKcv.png)
 
 ![im3](https://i.imgur.com/5qTZGQb.png)
+
