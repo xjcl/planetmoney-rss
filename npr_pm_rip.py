@@ -197,11 +197,12 @@ def parse_site_into_feed(old_feed_entries, epoch):
             # exclude space overview page with 4 episode links
             if not 'link' in e or e['title'] == 'Episode 4':
                 continue
-            # curdate = datetime.datetime.strptime(e['pubDate'], '%Y-%m-%d')
-            # curdate = datetime.datetime(*time.strptime(e['pubDate'], "%Y-%m-%dT%H:%M:%S")[:6])
             curdate = dateutil.parser.parse(e['pubDate'])
+            # prevent duplicates -- nb PM sometimes changes links =/// (version 2's etc) -> podcatcher thinks it's a SEPERATE ep
             if all(f['link'] != e['link'] for f in old_feed_entries) and \
-               all(f['link'] != e['link'] for f in new_feed_entries):  # prevent duplicates
+               all(f['link'] != e['link'] for f in new_feed_entries) and \
+               all(f['pubDate'] != e['pubDate'] for f in old_feed_entries) and \
+               all(f['pubDate'] != e['pubDate'] for f in new_feed_entries):
                 new_feed_entries.append(e)
 
     return new_feed_entries
