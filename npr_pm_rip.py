@@ -74,8 +74,13 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
         if attrs.get('class') == 'audio-module-controls-wrap' and self.prev.attrs.get('class') == 'audio-module-title' and 'data-audio' in attrs:
             self.feed_entry['link'] = json.loads(attrs['data-audio'])['audioUrl']   # ondemand.npr.org
             if not self.feed_entry['link'].startswith('https://'):
-                self.feed_entry['link'] = base64.b64decode(self.feed_entry['link']).decode('UTF-8')
-            self.feed_entry['guid'] = self.feed_entry['link']
+                self.feed_entry['link'] = base64.b64decode(self.feed_entry['link']).decode('UTF-8')  # WTF???
+
+        # download links deleted..
+        if self.feed_entry.get('title') == 'Hear: They Know You':
+            self.feed_entry['link'] = 'http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510289/104203194/npr_104203194.mp3'
+        if self.feed_entry.get('title') == 'Secrets Of The Watchmen':
+            self.feed_entry['link'] = 'http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510289/105020259/npr_105020259.mp3'
 
         self.prev = self.tagattrs(tag, attrs)
 
@@ -90,7 +95,7 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
 
         parser = PlanetMoneyHTMLParser()
         parser.feed(the_page)
-        if 'audio-module-controls-wrap' not in the_page:
+        if 'audio-module-controls-wrap' not in the_page or '<b class="audio-availability-message">Audio for this story is unavailable.</b>' in the_page:
             print('No download link on page: ' + url, file=sys.stderr)
             # dl_missing = True
         parser.close()
@@ -112,11 +117,14 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
 
                 # OMG they straight up forgot an episode in their feed. this intern needs to be fired xD
                 if self.subpage == 'https://www.npr.org/sections/money/2016/07/22/487069271/episode-576-when-women-stopped-coding':
-
                     self.feed_entries.append(self.feed_entry)
                     self.feed_entry = {}
-
                     self.add_subpage_info('https://www.npr.org/sections/money/2016/07/20/486785422/episode-713-paying-for-the-crime')
+
+                if self.subpage == 'https://www.npr.org/sections/money/2010/08/03/128960709/the-tuesday-podcast':
+                    self.feed_entries.append(self.feed_entry)
+                    self.feed_entry = {}
+                    self.add_subpage_info('https://www.npr.org/sections/money/2010/07/30/128880374/the-friday-podcast-tallying-up-the-pelican-bill')
 
                 self.subpage = None
 
@@ -216,6 +224,80 @@ def save_feed_entries(all_feed_entries):
     with open(FEED_PICKLE_FILE, 'wb') as f:
         pickle.dump(all_feed_entries, f)
 
+
+    all_feed_entries.reverse()
+
+    started_count = False
+    ep = None
+
+    # sanitize feed entries:  add ep #'s, san titles, ..
+    for i,e in enumerate(all_feed_entries):
+
+        e['guid'] = e['link']
+        e['pubDate'] = email.utils.format_datetime(dateutil.parser.parse(e['pubDate']))
+
+        for stripme in ('Hear: ', 'Podcast: ', 'Listen Up: ', 'The Friday Podcast: ', 'The Tuesday Podcast: '):
+            if e['title'].startswith(stripme):
+                e['title'] = e['title'][len(stripme):]
+
+        if e['title'].startswith(' Episode '):  # affected: #428 #567  -> intern's ass = whooped
+            e['title'] = e['title'][1:]
+        if e['title'].startswith('Episode '):
+            e['title'] = '#' + e['title'][8:]
+
+        if "Japan's Lost Lesson" in e['title'] and not started_count:
+            started_count = True
+            ep = 1
+
+        if e['title'].startswith('Deep Read: ') or e['title'].startswith('Our First Podcast: '):
+            continue
+
+        if e['title'].startswith('SPACE ') or e['title'].startswith('Oil #'):
+            ep += 1
+            continue
+
+        # some episodes have original titles different from their re-run titles
+        if e['title'] == 'Medieval Economics':
+            e['title'] = 'Bloody, Miserable Medieval Economics'
+        if e['title'] == 'The Rise And Fall Of An Internet Giant':
+            e['title'] = 'MySpace Was Born Of Total Ignorance. Also Porn And Spyware'
+        if e['title'] == 'Why Economists Hate Gifts':
+            e['title'] = 'Making Christmas More Joyful, And More Efficient'
+        if e['title'] == 'How To Kill A Currency':
+            e['title'] = 'Kill The Euro, Win $400,000'
+
+        if started_count:
+
+            m = re.match('#[0-9]+: ', e['title'])
+
+            if m:
+                ep_nr = m.group(0)[1:-2]
+                if ep == int(ep_nr):
+                    ep += 1
+                else:
+                    assert int(ep_nr) < ep
+
+            else:
+                for f in all_feed_entries[:i]:
+                    old_title = f['title']
+                    m_old = re.match('#[0-9]+: ', old_title)
+                    if m_old:
+                        old_title = old_title[m_old.end(0):]
+                    if e['title'] == old_title:
+                        e['title'] = f['title']
+                        break
+                else:
+                    e['title'] = '#' + str(ep) + ': ' + e['title']
+                    ep += 1
+
+        print(e['title'])
+
+        # missing and forever lost -- RIP
+        while ep in (139,):
+            ep += 1
+
+    all_feed_entries.reverse()
+
     found_episodes = []
 
     with open('npr_pm_feed.xml', 'w') as f:
@@ -227,21 +309,12 @@ def save_feed_entries(all_feed_entries):
             <image><url>http://nationalpublicmedia.com/wp-content/uploads/2014/06/planetmoney.png</url></image>
             <description>NPR's Planet Money. The economy, explained. Collated into a full-history feed by some d00d.</description>\n''')
 
-        # for e in all_feed_entries:
         for i,e in enumerate(all_feed_entries):
             f.write('<item>\n')
             for k,v in sorted(e.items()):
-                if k == 'pubDate':
-                    v = email.utils.format_datetime(dateutil.parser.parse(v))
                 if k == 'title':
-                    if v.startswith(' Episode '):   # affected: #428 #567
-                        # oh my god the intern deserves an ass-whooping xDDD
-                        v = v[1:]
-                    if v.startswith('Episode '):
-                        v = '#' + v[8:]
                     if v.startswith('#'):
                         found_episodes.append(int(v[1:v.find(':')]))
-                    print(len(all_feed_entries)-i, v)
                 if k == 'link':
                     f.write('<enclosure url="' + html.escape(v) + '" type="audio/mpeg"/>')
                 f.write('<' + k + '>' + html.escape(v) + '</' + k + '>\n')
@@ -252,7 +325,7 @@ def save_feed_entries(all_feed_entries):
     found_episodes.reverse()
 
     # test if our scraping missed any episodes  (won't detect missing re-runs)
-    last_nr = 376
+    last_nr = 0
     print('Checking integrity of new episodes (excludes re-runs) after #' + str(last_nr) + '...', file=sys.stderr)
     # print(found_episodes, file=sys.stderr)
     for ep_nr in found_episodes:
@@ -264,9 +337,8 @@ def save_feed_entries(all_feed_entries):
         elif ep_nr == last_nr + 1:  # subsequent episodes  => okay
             last_nr = ep_nr
         elif ep_nr > last_nr + 1:
-            # hardcode episodes that are NOT missing but just with titles missing number :>
-            #   either by mistake or in the "Oil #X" (716-720) and "SPACE X" (808-811) series
-            if (last_nr, ep_nr) in [(675, 677), (715, 721), (807, 812)]:
+            # hardcode episodes that are NOT missing but just with different titles:  "Oil #X" (716-720) and "SPACE X" (808-811)
+            if (last_nr, ep_nr) in [(715, 721), (807, 812)]:
                 last_nr = ep_nr
                 continue
             if last_nr+1 == ep_nr-1:
@@ -278,16 +350,10 @@ def save_feed_entries(all_feed_entries):
 
 # pop n most recent episodes from history  -> used for debugging
 def pop_from_history(n):
+    with open(FEED_PICKLE_FILE, 'rb+') as f:
+        pickle.dump(pickle.load(f)[n:], f)
 
-    feed = []
-    with open(FEED_PICKLE_FILE, 'rb') as f:
-        feed = pickle.load(f)
-
-    feed = feed[n:]
-
-    with open(FEED_PICKLE_FILE, 'wb') as f:
-        pickle.dump(feed, f)
-
+# pop_from_history(30)
 
 
 if __name__ == '__main__':
