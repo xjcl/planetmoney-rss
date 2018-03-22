@@ -351,9 +351,9 @@ def save_feed_entries(all_feed_entries):
 # pop n most recent episodes from history  -> used for debugging
 def pop_from_history(n):
     with open(FEED_PICKLE_FILE, 'rb+') as f:
-        pickle.dump(pickle.load(f)[n:], f)
-
-# pop_from_history(30)
+        feed = pickle.load(f)[n:]
+        f.seek(0)
+        pickle.dump(feed, f)
 
 
 if __name__ == '__main__':
@@ -363,18 +363,15 @@ if __name__ == '__main__':
 
 # TODO: (low-prio) add pictures
 
-# TODO: quality control, e.g. list of episode numbers from feed, and compare to reference using a test case ?
-# TODO: fix new eps addition bug
 # TODO: automate new eps addition (server?)
 # TODO: why do some episodes have info on mm:ss length and some don't ?
+# TODO: episode duration for ALL episodes, eg #407
 
 # TODO: deprecate 'npr_pm_test.xml'
 # TODO: This American Life ?
 # TODO: make cps of the indicator just in case ?
-# TODO: episode duration for ALL episodes, eg #407
 
-# TODO: add numbering to old episodes (but how to deal with re-runs?)
+# TODO: fix titles+descriptions for early episodes
 
-# TODO: fix descriptions for early episodes
-
-# TODO: find diverging titles+descriptions between episode pages and episode overviews
+# TODO: missing links from
+# http://www.podcasts.com/npr_planet_money_podcast/page/2152
