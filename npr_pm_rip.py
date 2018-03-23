@@ -358,7 +358,7 @@ def pop_from_history(n):
 
 if __name__ == '__main__':
     old_feed_entries, epoch = load_feed_entries()
-    new_feed_entries = parse_site_into_feed(old_feed_entries, epoch)
+    new_feed_entries = parse_site_into_feed(old_feed_entries, epoch)   #TODO: add try..except for inet
     save_feed_entries(new_feed_entries + old_feed_entries)
 
 # TODO: (low-prio) add pictures
@@ -375,3 +375,4 @@ if __name__ == '__main__':
 
 # TODO: missing links from
 # http://www.podcasts.com/npr_planet_money_podcast/page/2152
+# TODO: check if old episodes are all there (screenshot)
