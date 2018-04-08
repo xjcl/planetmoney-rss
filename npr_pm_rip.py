@@ -242,6 +242,8 @@ def save_feed_entries(all_feed_entries):
 
         if e['title'].startswith(' Episode '):  # affected: #428 #567  -> intern's ass = whooped
             e['title'] = e['title'][1:]
+        if e['title'].startswith(' #'):  # affected: #833
+            e['title'] = e['title'][1:]
         if e['title'].startswith('Episode '):
             e['title'] = '#' + e['title'][8:]
 
@@ -348,7 +350,7 @@ def save_feed_entries(all_feed_entries):
             last_nr = ep_nr
 
 
-# pop n most recent episodes from history  -> used for debugging
+# pop n most recent episodes from history  -> used for debugging and bugfixes
 def pop_from_history(n):
     with open(FEED_PICKLE_FILE, 'rb+') as f:
         feed = pickle.load(f)[n:]
