@@ -20,6 +20,15 @@ import collections
 import urllib.request
 import dateutil.parser
 
+
+def npr_HTML_request(url):
+    req = urllib.request.Request(url)
+    req.add_header('Cookie', 'trackingChoice=true; dateOfChoice=1528282943947; choiceVersion=1')  # GDPR cookie
+
+    with urllib.request.urlopen(req) as response:
+        return str(response.read(), 'utf-8')
+
+
 # input:   "npr planet money" html website corresponding to a month+year-date
 # output:  stored in self.feed_entries which is a list of entries
 #               each entry corresponds to a podcast episode
@@ -81,17 +90,16 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
             self.feed_entry['link'] = 'http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510289/104203194/npr_104203194.mp3'
         if self.feed_entry.get('title') == 'Secrets Of The Watchmen':
             self.feed_entry['link'] = 'http://podcastdownload.npr.org/anon.npr-podcasts/podcast/510289/105020259/npr_105020259.mp3'
+        # download links missing..
+        if self.feed_entry.get('title') == 'Episode 830: XXX-XX-XXXX':
+            self.feed_entry['link'] = 'https://20963.mc.tritondigital.com/NPR_510289/media-session/0d8e5b34-3266-4faf-8068-7a7b414b2be2/anon.npr-podcasts/podcast/npr/pmoney/2018/03/20180314_pmoney_pmpod830-2d1cb700-1ad5-4fd4-89a7-3c51f6d31b39.mp3?orgId=1&d=1243&p=510289&story=593603674&t=podcast&e=593603674&siteplayer=true&dl=1'
 
         self.prev = self.tagattrs(tag, attrs)
 
     # re-use scraping code on an indiviual episode's page (= subpage), this requires some trickery
     #   (combining all fake feed_entries of the subpage on top of the current dict)
     def add_subpage_info(self, url):
-
-        req = urllib.request.Request(url)
-
-        with urllib.request.urlopen(req) as response:
-            the_page = str(response.read(), 'utf-8')
+        the_page = npr_HTML_request(url)
 
         parser = PlanetMoneyHTMLParser()
         parser.feed(the_page)
@@ -157,7 +165,8 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
 
 PLANET_MONEY_EPOCH = dateutil.parser.parse('2008-09-09T16:45:00-04:00')  # datetime of 1st episode
 FEED_PICKLE_FILE = 'npr_pm_feed.pickle'
-URL_STEM = 'http://www.npr.org/sections/money/127413729/podcast/archive'
+URL_STEM = 'https://www.npr.org/sections/money/127413729/planet-money/archive'
+
 
 # try to load cached results from a previous run of this script
 def load_feed_entries():
@@ -191,14 +200,10 @@ def parse_site_into_feed(old_feed_entries, epoch):
         print('On page #' + str(req_nr) + ' for date ' + curdate.strftime('%Y-%m-%d'), end='\r')
 
         full_url = URL_STEM + curdate.strftime('?date=%m-%d-%Y')  # site uses yankeedates !! lmao
-        req = urllib.request.Request(full_url)
-
-        with urllib.request.urlopen(req) as response:
-            the_page = str(response.read(), 'utf-8')
 
         # print('init DL-ing ' + full_url)
         parser = PlanetMoneyHTMLParser()
-        parser.feed(the_page)
+        parser.feed(npr_HTML_request(full_url))
         parser.close()
 
         for e in parser.feed_entries:
