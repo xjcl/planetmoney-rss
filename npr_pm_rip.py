@@ -124,6 +124,7 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
                 self.add_subpage_info(self.subpage)
 
                 # OMG they straight up forgot an episode in their feed. this intern needs to be fired xD
+                # manually add previous episode for the 3 eps missing in the feed
                 if self.subpage == 'https://www.npr.org/sections/money/2016/07/22/487069271/episode-576-when-women-stopped-coding':
                     self.feed_entries.append(self.feed_entry)
                     self.feed_entry = {}
@@ -133,6 +134,12 @@ class PlanetMoneyHTMLParser(html.parser.HTMLParser):
                     self.feed_entries.append(self.feed_entry)
                     self.feed_entry = {}
                     self.add_subpage_info('https://www.npr.org/sections/money/2010/07/30/128880374/the-friday-podcast-tallying-up-the-pelican-bill')
+
+                if self.subpage == 'https://www.npr.org/sections/money/2018/08/29/643072388/episode-783-new-jersey-bails-out':
+                    self.feed_entries.append(self.feed_entry)
+                    self.feed_entry = {}
+                    print('prev')
+                    self.add_subpage_info('https://www.npr.org/sections/money/2018/08/24/641739640/episode-861-food-scare-squad')
 
                 self.subpage = None
 
@@ -238,6 +245,9 @@ def save_feed_entries(all_feed_entries):
     # sanitize feed entries:  add ep #'s, san titles, ..
     for i,e in enumerate(all_feed_entries):
 
+        print('--------')
+        print(e['title'])
+
         e['guid'] = e['link']
         e['pubDate'] = email.utils.format_datetime(dateutil.parser.parse(e['pubDate']))
 
@@ -263,7 +273,10 @@ def save_feed_entries(all_feed_entries):
             ep += 1
             continue
 
-        # some episodes have original titles different from their re-run titles
+        if any(x in e['title'] for x in ['Episode #1', "'The Souls Of China'"]):
+            continue
+
+        # some episodes have original titles different from their re-run titles  => needed for matching
         if e['title'] == 'Medieval Economics':
             e['title'] = 'Bloody, Miserable Medieval Economics'
         if e['title'] == 'The Rise And Fall Of An Internet Giant':
@@ -272,6 +285,7 @@ def save_feed_entries(all_feed_entries):
             e['title'] = 'Making Christmas More Joyful, And More Efficient'
         if e['title'] == 'How To Kill A Currency':
             e['title'] = 'Kill The Euro, Win $400,000'
+
 
         if started_count:
 
@@ -282,9 +296,11 @@ def save_feed_entries(all_feed_entries):
                 if ep == int(ep_nr):
                     ep += 1
                 else:
+                    # has to be a re-run, otherwise we skipped something
                     assert int(ep_nr) < ep
 
             else:
+                # manually add numbering, either based on re-runs (for) or on counter (else)
                 for f in all_feed_entries[:i]:
                     old_title = f['title']
                     m_old = re.match('#[0-9]+: ', old_title)
@@ -297,11 +313,12 @@ def save_feed_entries(all_feed_entries):
                     e['title'] = '#' + str(ep) + ': ' + e['title']
                     ep += 1
 
-        print(e['title'])
-
         # missing and forever lost -- RIP
         while ep in (139,):
             ep += 1
+
+        print(e['title'])
+
 
     all_feed_entries.reverse()
 
@@ -314,7 +331,7 @@ def save_feed_entries(all_feed_entries):
             <title>Planet Money but it's all episodes</title>
             <link>https://github.com/xjcl/planetmoney-rss/tree/gh-pages</link>
             <image><url>http://nationalpublicmedia.com/wp-content/uploads/2014/06/planetmoney.png</url></image>
-            <description>NPR's Planet Money. The economy, explained. Collated into a full-history feed by some d00d.</description>\n''')
+            <description>NPR's Planet Money. The economy, explained. Collated into a full-history feed by /u/xjcl.</description>\n''')
 
         for i,e in enumerate(all_feed_entries):
             f.write('<item>\n')
