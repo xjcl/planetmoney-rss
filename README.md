@@ -1,14 +1,16 @@
-# planetmoney-rss
+# Planet Money but it's all episodes
 
-**This feed is available here**:
+**The feed is available here**:
     https://xjcl.github.io/planetmoney-rss/npr_pm_feed.xml
 
-*Planetmoney-rss* is a script to assemble a podcast feed containing **ALL** [Planet Money](https://en.wikipedia.org/wiki/Planet_Money) episodes, including all old episodes going back to 2008.
-Their [official feed](https://itunes.apple.com/us/podcast/planet-money/id290783428?mt=2) only includes the most recent 300 of the show's more-than-1000 episodes due to an iTunes limitation.
+*Planetmoney-rss* is a repository to assemble a podcast feed containing **ALL** [Planet Money](https://en.wikipedia.org/wiki/Planet_Money) episodes, including all old episodes going back to 2008.
+NPR's [official feed](https://itunes.apple.com/us/podcast/planet-money/id290783428?mt=2) only includes the most recent 300 of the show's more-than-1000 episodes due to an iTunes limitation.
 
-This is done by downloading the human-interfacing HTML from NPR's Planet Money [website](https://www.npr.org/sections/money/127413729/podcast/archive), parsing it into [Python](https://en.wikipedia.org/wiki/Python_(programming_language)) datatypes (`PlanetMoneyHTMLParser`), and emitting an XML RSS feed. This takes around 30 minutes because every single of the >1000 episode pages have to be downloaded and parsed; only they contain all download links and exact timestamps. The script caches the feed so not all sites have to be re-downloaded when a new episode is released so an update only takes a few seconds.
+All episodes < 2019-05-01 were scraped from NPR's Planet Money [website](https://www.npr.org/sections/money/127413729/podcast/archive) and exported into an XML RSS file using Python code ([npr_pm_rip.py](npr_pm_rip.py)). _In 2019, NPR STOPPED updating that site with podcast episodes, so that script is no longer used._
 
-The feed is titled *Planet Money but it's all episodes*. Currently the pages `npr_pm_test.xml` and `npr_pm_feed.xml` are identical. I will soon deprecate the former's URL which was originally for testing purposes, and the Podcast Addict search should only find the correct URL.
+Episodes >= 2019-05-01 are directly copied from the official NPR feed at https://feeds.npr.org/510289/podcast.xml. This is less work for me and also ensures correct metadata. Needs to be done every 2-3 years before episodes fall off the official feed (should be managable if I don't die). Uses [wget_feed_HEAD.sh](wget_feed_HEAD.sh) and manual select + copy + paste.
+
+----
 
 For more information look at these reddit threads:
 - https://www.reddit.com/r/nprplanetmoney/comments/86ot7a/ultimate_guide_to_listening_to_all_old_episodes/
@@ -16,9 +18,4 @@ For more information look at these reddit threads:
 
 Screenshots of how this feed looks in Podcast Addict:
 
-![im1](https://i.imgur.com/lwupMH9.png)
-
-![im2](https://i.imgur.com/SanFKcv.png)
-
-![im3](https://i.imgur.com/5qTZGQb.png)
-
+<img src="https://i.imgur.com/lwupMH9.png" width="270px"> <img src="https://i.imgur.com/SanFKcv.png" width="270px"> <img src="https://i.imgur.com/5qTZGQb.png" width="270px">
