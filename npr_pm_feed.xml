@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-            <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+            <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:media="http://search.yahoo.com/mrss/" xmlns:podcast="https://podcastindex.org/namespace/1.0" version="2.0">
             <channel>
             <title>Planet Money but it's all episodes</title>
             <link>https://github.com/xjcl/planetmoney-rss/tree/gh-pages</link>
